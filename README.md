@@ -1,6 +1,8 @@
 # openet
 ## An R package for accessing the OpenET API
 
+![OpenET screenshot](OpenET_screenshot.PNG?raw=true "Open ET screenshot")
+
 The `openet` package makes your life easier in several ways:
 
 - allows you to automate routine calls to OpenET and use the data in automated reports
