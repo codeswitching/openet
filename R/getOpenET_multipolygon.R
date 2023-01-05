@@ -12,7 +12,7 @@
 #'
 #' @param start_date The start date in yyyy-mm-dd format.
 #' @param end_date            The end date in yyyy-mm-dd format. Defaults to today's date.
-#' @param model               'ensemble_mean', 'eemetric', 'ssebop', 'geesebal', 'sims', 'disalexi', 'ptjpl'. Defaults to 'eemetric'.
+#' @param model               'ensemble_mean', 'eemetric', 'ssebop', 'geesebal', 'sims', 'disalexi', 'ptjpl'. Defaults to 'ensemble_mean'.
 #' @param variable            'et', 'ndvi', 'et_reference', 'et_fraction', 'count'. Defaults to 'et'.
 #' @param units               'metric', 'english'. Defaults to 'english'.
 #' @param ref_et_source       Reference ET source, either 'cimis' (CA only) or 'gridmet' (all states). Defaults to 'cimis'.
@@ -28,7 +28,7 @@
 #' @examples getOpenET_multipolygon(start_date = '2021-01-01', end_date = '2021-12-31', model = 'ensemble_mean', units = 'mm', interval = 'daily', shapefile_asset_id = 'projects/penman/my_shapefile', output_file_format = 'csv', api_key = 'mykey')
 
 
-getOpenET_multipolygon <- function (start_date = '2020-01-01', end_date = as.character(Sys.Date()), model = 'eemetric',
+getOpenET_multipolygon <- function (start_date = '2020-01-01', end_date = as.character(Sys.Date()), model = 'ensemble_mean',
                        variable = 'et', ref_et_source = 'cimis', units = 'english', interval = 'monthly',
                        shapefile_asset_id = 'projects/lsteely/assets/MWD_Parcels', include_columns = 'PVID_PARNU,WT_ACRES',
                        output_file_format = 'csv', filename_suffix = 'ls', api_key = '')

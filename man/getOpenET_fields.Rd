@@ -9,7 +9,7 @@ getOpenET_fields(
   field_ids = "06323746",
   start_date = "2021-01-01",
   end_date = as.character(Sys.Date() - 14),
-  model = "eemetric",
+  model = "ensemble_mean",
   variable = "et",
   units = "english",
   api_key = ""
@@ -24,7 +24,7 @@ getOpenET_fields(
 
 \item{end_date}{The end date as a string in 'yyyy-mm-dd' format. Defaults to two weeks ago.}
 
-\item{model}{ET model to use: 'ensemble_mean', 'eemetric', 'ssebop', 'geesebal', 'sims', 'disalexi', 'ptjpl'. Defaults to 'eemetric'.}
+\item{model}{ET model to use: 'ensemble_mean', 'eemetric', 'ssebop', 'geesebal', 'sims', 'disalexi', 'ptjpl'. Defaults to 'ensemble_mean'.}
 
 \item{variable}{Variable to fetch: 'et', 'ndvi', 'et_reference', 'et_fraction', 'count'. Defaults to 'et'.}
 

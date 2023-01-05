@@ -2,12 +2,12 @@
 % Please edit documentation in R/getOpenET_multipolygon.R
 \name{getOpenET_multipolygon}
 \alias{getOpenET_multipolygon}
-\title{Timeseries of monthly/daily ET for a multiple custom polygons}
+\title{Timeseries of monthly/daily ET for multiple custom polygons}
 \usage{
 getOpenET_multipolygon(
   start_date = "2020-01-01",
   end_date = as.character(Sys.Date()),
-  model = "eemetric",
+  model = "ensemble_mean",
   variable = "et",
   ref_et_source = "cimis",
   units = "english",
@@ -24,7 +24,7 @@ getOpenET_multipolygon(
 
 \item{end_date}{The end date in yyyy-mm-dd format. Defaults to today's date.}
 
-\item{model}{'ensemble_mean', 'eemetric', 'ssebop', 'geesebal', 'sims', 'disalexi', 'ptjpl'. Defaults to 'eemetric'.}
+\item{model}{'ensemble_mean', 'eemetric', 'ssebop', 'geesebal', 'sims', 'disalexi', 'ptjpl'. Defaults to 'ensemble_mean'.}
 
 \item{variable}{'et', 'ndvi', 'et_reference', 'et_fraction', 'count'. Defaults to 'et'.}
 

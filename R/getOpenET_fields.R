@@ -20,7 +20,7 @@
 #' @param field_ids One or more OpenET field ids, as a string or vector of strings. To determine the field id, click on a field within the OpenET web explorer. Id is shown in the popup title.
 #' @param start_date The start date as a string in 'yyyy-mm-dd' format.
 #' @param end_date The end date as a string in 'yyyy-mm-dd' format. Defaults to two weeks ago.
-#' @param model ET model to use: 'ensemble_mean', 'eemetric', 'ssebop', 'geesebal', 'sims', 'disalexi', 'ptjpl'. Defaults to 'eemetric'.
+#' @param model ET model to use: 'ensemble_mean', 'eemetric', 'ssebop', 'geesebal', 'sims', 'disalexi', 'ptjpl'. Defaults to 'ensemble_mean'.
 #' @param variable Variable to fetch: 'et', 'ndvi', 'et_reference', 'et_fraction', 'count'. Defaults to 'et'.
 #' @param units Units for ET; 'metric' will give mm and 'english' will give inches. Defaults to 'english'.
 #' @param api_key Your personal OpenET API key as a string. Can be obtained from https://auth.etdata.org
@@ -42,7 +42,7 @@
 
 
 getOpenET_fields <- function (state = 'CA', field_ids = '06323746', start_date = '2021-01-01', end_date = as.character(Sys.Date()-14),
-                              model = 'eemetric', variable = 'et', units = 'english', api_key = '')
+                              model = 'ensemble_mean', variable = 'et', units = 'english', api_key = '')
 {
   library(httr)      # API tools for R
   library(dplyr)     # case_when

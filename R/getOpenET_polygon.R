@@ -23,7 +23,7 @@
 #' @param geometry A numeric vector containing lat-long pairs. e.g. `c(-114.2, 33.5, -114.8, 33.7, -114.0, 33.0)`
 #' @param start_date The start date as a string in 'yyyy-mm-dd' format.
 #' @param end_date The end date as a string in 'yyyy-mm-dd' format. Defaults to today's date.
-#' @param model The ET model: 'ensemble_mean', 'eemetric', 'ssebop', 'geesebal', 'sims', 'disalexi', 'ptjpl'. Defaults to 'eemetric'.
+#' @param model The ET model: 'ensemble_mean', 'eemetric', 'ssebop', 'geesebal', 'sims', 'disalexi', 'ptjpl'. Defaults to 'ensemble_mean'.
 #' @param variable Variable to fetch: 'et', 'ndvi', 'et_reference', 'et_fraction', 'count'. Defaults to 'et'.
 #' @param units Units for ET; 'metric' will give mm and 'english' will give inches. Defaults to 'english'.
 #' @param ref_et_source Reference ET source, either 'cimis' (CA only) or 'gridmet' (all states). Defaults to 'cimis'.
@@ -46,7 +46,7 @@
 
 
 getOpenET_polygon <- function (geometry, start_date = '2021-01-01', end_date = as.character(Sys.Date()),
-                               model = 'eemetric', variable = 'et', units = 'english', ref_et_source = 'cimis',
+                               model = 'ensemble_mean', variable = 'et', units = 'english', ref_et_source = 'cimis',
                                provisional = 'false', interval = 'daily', moving_average = '0', best_effort = 'true',
                                pixel_aggregation = 'mean', api_key = '')
 

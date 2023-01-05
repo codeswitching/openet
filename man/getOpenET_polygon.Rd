@@ -8,7 +8,7 @@ getOpenET_polygon(
   geometry,
   start_date = "2021-01-01",
   end_date = as.character(Sys.Date()),
-  model = "eemetric",
+  model = "ensemble_mean",
   variable = "et",
   units = "english",
   ref_et_source = "cimis",
@@ -27,7 +27,7 @@ getOpenET_polygon(
 
 \item{end_date}{The end date as a string in 'yyyy-mm-dd' format. Defaults to today's date.}
 
-\item{model}{The ET model: 'ensemble_mean', 'eemetric', 'ssebop', 'geesebal', 'sims', 'disalexi', 'ptjpl'. Defaults to 'eemetric'.}
+\item{model}{The ET model: 'ensemble_mean', 'eemetric', 'ssebop', 'geesebal', 'sims', 'disalexi', 'ptjpl'. Defaults to 'ensemble_mean'.}
 
 \item{variable}{Variable to fetch: 'et', 'ndvi', 'et_reference', 'et_fraction', 'count'. Defaults to 'et'.}
 
