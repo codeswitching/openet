@@ -1,11 +1,13 @@
 # openet
 ## An R package for accessing the OpenET API
 
+![OpenET screenshot](OpenET_screenshot.PNG?raw=true "Open ET screenshot")
+
 The `openet` package makes your life easier in several ways:
 
 - allows you to automate routine calls to OpenET and use the data in automated reports
 - returns ET data as an analysis-ready, tidy-formatted R data frame in most cases
-- lets you tweak parameters like units, time intervals, and pixel aggregation that cannot be done on the OpenET web app
+- lets you tweak parameters like units, time intervals, reference ET source, and pixel aggregation
 
 ## How to use it
 
