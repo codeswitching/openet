@@ -44,20 +44,6 @@ getOpenET_multipolygon <- function (start_date = '2020-01-01', end_date = as.cha
 
   url <- 'https://openet.dri.edu/raster/timeseries/multipolygon'  # URL for the API raster multipolygon endpoint
 
-  # For testing only. Leave commented out.
-  start_date = '2021-01-01'
-  end_date = '2022-10-01'
-  model = 'eemetric'
-  variable = 'et'
-  ref_et_source = 'cimis'
-  units = 'english'
-  interval = 'monthly'
-  shapefile_asset_id = 'projects/lsteely/assets/MWD_Parcels'
-  interval = 'monthly'
-  include_columns = 'PVID_PARNU,WT_ACRES'
-  output_file_format = 'csv'
-  filename_suffix = 'ls'
-
   response <- GET(url, add_headers(accept = "application/json", Authorization = api_key),
                   query = list(start_date         = start_date,
                                end_date           = end_date,

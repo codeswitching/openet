@@ -58,21 +58,6 @@ getOpenET_polygon <- function (geometry, start_date = '2021-01-01', end_date = a
 
   url <- 'https://openet.dri.edu/raster/timeseries/polygon' # URL for the API's timeseries/features/monthly endpoint
 
-  # For testing only. Leave commented out otherwise.
-  model         = 'eemetric'
-  variable      = 'et'
-  start_date    = '2021-01-01'
-  end_date      = '2022-10-01'
-  units         = 'english'
-  geometry = c(-114.73958015441895,33.481746558485895,-114.73580360412599,33.48176445550475,-114.73556756973268,33.478542932541984,-114.73960161209106,33.478435546380034)
-  output_file_format = 'json'
-  ref_et_source = 'cimis'
-  provisional   = 'true'
-  interval      = 'daily'
-  moving_average = '0'
-  best_effort = 'true'
-  pixel_aggregation = 'mean'
-
   response <- POST(url,
                    add_headers(accept = 'application/json',         # type of response to accept
                                Authorization = api_key,             # API key

@@ -56,16 +56,6 @@ getOpenET_fields <- function (state = 'CA', field_ids = '06323746', start_date =
   field_ids <- substr(field_ids, 1, nchar(field_ids)-1)     # remove comma after last id
   field_ids <- paste0('[', field_ids, ']')                  # add brackets around the ids
 
-  # For testing only. Leave commented out otherwise.
-  #   feature_collection_name = 'CA',
-  #   model         = 'eemetric',
-  #   variable      = 'et',
-  #   start_date    = '2021-01-01',
-  #   end_date      = '2022-09-01',
-  #   field_ids     = "[\"06324308\"]",
-  #   output_format = 'json',
-  #   units         = 'english')
-
   response <- POST(url,
                    add_headers(accept = 'application/json',         # type of response to accept
                                Authorization = api_key,             # API key
