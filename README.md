@@ -39,9 +39,13 @@ All functions are fully documented with examples. To read the documentation, use
 
 It is recommended to also read the [OpenET API documentation](https://open-et.github.io/docs/build/html/index.html) for the endpoints of interest. There is also a [Swagger testbed](https://openet.dri.edu/docs) for the API, which can be useful for confirming whether parameters are specified correctly.
 
+See `openet package demo.R` in this repository for examples of how to fetch and visualize ET data.
+
 ## Parameters
 
-Parameter names and values are identical to those given in the API documentation. Note that nearly all parameters, including 'true' and 'false', must be passed as strings. It is particularly important to treat OpenET field id's as strings since they may contain leading zeros. The one exception is the `geometry` parameter in the `getOpenET_polygon` function, which must be passed as a numeric vector of lat/long coordinates. See the documentation for this function as there is a clever way to extract the coordinates using the OpenET web app.
+Parameter names and values are usually identical to those given in the API documentation. One exception is that I have standardized the name of the ensemble model to `'ensemble'` for all functions, even though some API endpoints use `'ensemble_mean'`.
+
+Note that nearly all parameters, including 'true' and 'false', must be passed as strings. It is particularly important to treat OpenET field id's as strings since they may contain leading zeros. One exception is the `geometry` parameter in the `getOpenET_polygon` function, which must be passed as a numeric vector of lat/long coordinates. See the documentation for this function as there is a clever way to extract the coordinates using the OpenET web app.
 
 ## API Keys
 

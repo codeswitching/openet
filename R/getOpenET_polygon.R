@@ -23,7 +23,7 @@
 #' @param geometry A numeric vector containing lat-long pairs. e.g. `c(-114.2, 33.5, -114.8, 33.7, -114.0, 33.0)`
 #' @param start_date The start date as a string in 'yyyy-mm-dd' format.
 #' @param end_date The end date as a string in 'yyyy-mm-dd' format. Defaults to today's date.
-#' @param model The ET model: 'ensemble_mean', 'eemetric', 'ssebop', 'geesebal', 'sims', 'disalexi', 'ptjpl'. Defaults to 'ensemble_mean'.
+#' @param model The ET model: 'ensemble', 'eemetric', 'ssebop', 'geesebal', 'sims', 'disalexi', 'ptjpl'. Defaults to 'ensemble_mean'.
 #' @param variable Variable to fetch: 'et', 'ndvi', 'et_reference', 'et_fraction', 'count'. Defaults to 'et'.
 #' @param units Units for ET; 'metric' will give mm and 'english' will give inches. Defaults to 'english'.
 #' @param ref_et_source Reference ET source, either 'cimis' (CA only) or 'gridmet' (all states). Defaults to 'cimis'.
@@ -36,7 +36,13 @@
 #'
 #' @returns Returns a data frame with one row per time interval and 3 columns:
 #'
-#' <date>    Date
+#' <date>    Date, in 'yyyy-mm-dd' format
+#'
+#' <year>    Numeric year, extracted from <date>
+#'
+#' <month>   Numeric month, extracted from <date>
+#'
+#' <julian>  Numeric julian day of year, extracted from <date>
 #'
 #' <et>      Daily or monthly ET, depending on chosen interval, in either inches or mm, depending on chosen units
 #'
@@ -46,15 +52,16 @@
 
 
 getOpenET_polygon <- function (geometry, start_date = '2021-01-01', end_date = as.character(Sys.Date()),
-                               model = 'ensemble_mean', variable = 'et', units = 'english', ref_et_source = 'cimis',
+                               model = 'ensemble', variable = 'et', units = 'english', ref_et_source = 'cimis',
                                provisional = 'false', interval = 'daily', moving_average = '0', best_effort = 'true',
                                pixel_aggregation = 'mean', api_key = '')
 
 {
   library(httr)      # API tools for R
   library(dplyr)     # case_when
+  library(lubridate) # month, year, yday functions for extacting date vars
 
-  httr::set_config(httr::config(ssl_verifypeer=0L))  # turn off ssl_verify (for use behind firewall)
+  httr::set_config(httr::config(ssl_verifypeer=0L))         # turn off ssl_verify (for use behind firewall)
 
   url <- 'https://openet.dri.edu/raster/timeseries/polygon' # URL for the API's timeseries/features/monthly endpoint
 
@@ -62,7 +69,7 @@ getOpenET_polygon <- function (geometry, start_date = '2021-01-01', end_date = a
                    add_headers(accept = 'application/json',         # type of response to accept
                                Authorization = api_key,             # API key
                                content_type = 'application/json'),  # tells server how the body data is formatted
-                   encode = 'json',                                 #  # tells POST how to encode the body list
+                   encode = 'json',                                 # tells POST how to encode the body list
                    body = list(geometry      = geometry,
                                model         = model,
                                variable      = variable,
@@ -94,12 +101,16 @@ getOpenET_polygon <- function (geometry, start_date = '2021-01-01', end_date = a
         etdata <- tryCatch ({                        # unpack the list into a data frame
       data.frame(date  = as.Date(sapply(response_data,    function(x) x$time)),
                  et    = as.numeric(sapply(response_data, function(x) x$et)),
-                 units = ifelse(units=='english', 'inches', 'mm'))
+                 units = ifelse(units == 'english', 'inches', 'mm'))
     }, error = function(e) {                         # if unpacking returns an error
       cat('Malformed parameter data - check that your parameters are specified correctly\n')
       return(NULL)
     })
   }
+
+  etdata <- etdata |> mutate(year   = year(date),   # extract year from date and add year column
+                             month  = month(date), # extract month from date and add month column
+                             julian = yday(date))  # add julian day of year column
 
   return(etdata)
 }

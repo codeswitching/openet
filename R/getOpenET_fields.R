@@ -27,9 +27,13 @@
 #'
 #' @returns Returns a data frame with (months) x (fields) rows and 5 columns:
 #'
-#' <start_date>  Start date of the month
+#' <start_date>  Start date of the month, in 'yyyy-mm-dd' format
 #'
 #' <end_date>    End date of the month
+#'
+#' <month>       Numeric month, extracted from <start_date>
+#'
+#' <year>        Numeric year, extracted from <start_date>
 #'
 #' <field>       OpenET field id
 #'
@@ -45,6 +49,7 @@ getOpenET_fields <- function (state = 'CA', field_ids = '06323746', start_date =
                               model = 'ensemble_mean', variable = 'et', units = 'english', api_key = '')
 {
   library(httr)      # API tools for R
+  library(lubridate) # month() and year()
   library(dplyr)     # case_when
 
   httr::set_config(httr::config(ssl_verifypeer=0L))  # turn off ssl_verify (for use behind firewall)
@@ -85,10 +90,12 @@ getOpenET_fields <- function (state = 'CA', field_ids = '06323746', start_date =
     cat('Server reports', http_status(response)$message, '\n')        # print a success message
     response_data <- content(response)              # extract the response data as a list
     etdata <- tryCatch({                            # Unpack the list into a data frame
-      data.frame(start_date = as.Date(sapply(response_data,    function(x) x$start_date)),
-                 end_date   = as.Date(sapply(response_data,    function(x) x$end_date)),
-                 field      = as.numeric(sapply(response_data, function(x) x$feature_unique_id)),
-                 et         = as.numeric(sapply(response_data, function(x) x$data_value)),
+      data.frame(start_date = as.Date(sapply(response_data,      function(x) x$start_date)),
+                 end_date   = as.Date(sapply(response_data,      function(x) x$end_date)),
+                 month      = month(start_date),
+                 year       = year(start_date),
+                 field      = as.character(sapply(response_data, function(x) x$feature_unique_id)),
+                 et         = as.numeric(sapply(response_data,   function(x) x$data_value)),
                  units      = ifelse(units == 'english', 'inches', 'mm'))
     }, error = function(e) {                        # If unpacking returns as error
       cat('Malformed parameter data - check that your parameters are specified correctly\n')
