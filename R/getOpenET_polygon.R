@@ -30,8 +30,8 @@
 #' @param provisional Include most recent months of data, even if provisional? Defaults to 'true'.
 #' @param interval Time interval: 'daily' or 'monthly'. Defaults to 'daily'.
 #' @param moving_average Average the data by x moving time intervals. '0', '1', '2', '3', etc. Defaults to '0'.
-#' @param best_effort
-#' @param pixel_aggregation
+#' @param best_effort Use non-pixel-based interpolation for faster daily data? Defaults to 'true.'
+#' @param pixel_aggregation Statistical spatial summary: 'mean', 'median', 'min', 'max', 'sum', 'count'. Defaults to 'mean'.
 #' @param api_key Your personal OpenET API key as a string. OCan be obtained from https://auth.etdata.org
 #'
 #' @returns Returns a data frame with one row per time interval and 3 columns:

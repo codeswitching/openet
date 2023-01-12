@@ -41,6 +41,10 @@ getOpenET_polygon(
 
 \item{moving_average}{Average the data by x moving time intervals. '0', '1', '2', '3', etc. Defaults to '0'.}
 
+\item{best_effort}{Use non-pixel-based interpolation for faster daily data? Defaults to 'true.'}
+
+\item{pixel_aggregation}{Statistical spatial summary: 'mean', 'median', 'min', 'max', 'sum', 'count'. Defaults to 'mean'.}
+
 \item{api_key}{Your personal OpenET API key as a string. OCan be obtained from https://auth.etdata.org}
 }
 \value{

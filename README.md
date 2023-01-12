@@ -5,17 +5,17 @@
 
 The `openet` package makes your life easier in several ways:
 
-- allows you to automate routine calls to OpenET and use the data in automated reports
+- allows you to automate routine calls to OpenET and use the data in markdown reports, dashboards, and reproducible analyses
 - returns ET data as an analysis-ready, tidy-formatted R data frame in most cases
-- lets you tweak parameters like units, time intervals, reference ET source, and pixel aggregation
+- lets you easily tweak parameters like units, time intervals, reference ET source, and spatial statistics
 
 ## How to use it
 
 The package provides three functions for accessing the API. Which one you use depends on what type of area you wish to pull ET data from:
 
-1. One or more of OpenET's built-in fields -> `getOpenET_fields`
-2. One user-defined polygon -> `getOpenET_polygon`
-3. Many user-defined polygons -> `getOpenET_multipolygon`
+1. One or more of OpenET's built-in fields -> `getOpenET_fields()`
+2. One user-defined polygon -> `getOpenET_polygon()`
+3. Many user-defined polygons -> `getOpenET_multipolygon()`
 
 OpenET's built-in fields are the most convenient to use because you only need to know the field id's. However, the boundaries might not match up with exactly the area you want, and only monthly data is available from this endpoint. Or you may be interested in a natural area such as a forest where there are no defined fields. In these cases, you must use one of the polygon functions.
 
@@ -23,9 +23,11 @@ If your area can be contained within a single polygon, the `getOpenET_polygon` f
 
 The most cumbersome option is `getOpenET_multipolygon` because you must create a Google Earth Engine account, upload a shapefile, provide read access to OpenET's API, and then pass the shapefile's asset ID to the function. Still, with a bit of effort this is not too difficult by following the instructions on the API documentation. Because this data can be quite large, the function does not return the data directly as a data frame like the other two. It instead returns a url that can be used within R to download a .csv file.
 
+There is also a `getOpenET_quota()` function which will provide the expiration date and quota limits for your key.
+
 ## How to install
 
-Install the `devtools` package, if not already installed, then run:
+Install the `devtools` package from CRAN, if not already installed, then run:
 
 `devtools::install_github('codeswitching/openet')`
 
@@ -39,7 +41,7 @@ It is recommended to also read the [OpenET API documentation](https://open-et.gi
 
 ## Parameters
 
-Parameter names are identical to those given in the API documentation. Note that nearly all parameters must be passed as strings. It is particularly important to treat OpenET field id's as strings since they may contain leading zeros. The one exception is the `geometry` parameter in the `getOpenET_polygon` function, which must be passed as a numeric vector of lat/long coordinates. See the documentation for this function as there is a clever way to extract the coordinates using the OpenET web app.
+Parameter names and values are identical to those given in the API documentation. Note that nearly all parameters, including 'true' and 'false', must be passed as strings. It is particularly important to treat OpenET field id's as strings since they may contain leading zeros. The one exception is the `geometry` parameter in the `getOpenET_polygon` function, which must be passed as a numeric vector of lat/long coordinates. See the documentation for this function as there is a clever way to extract the coordinates using the OpenET web app.
 
 ## API Keys
 

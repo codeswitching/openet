@@ -39,9 +39,6 @@ getOpenET_multipolygon <- function (start_date = '2020-01-01', end_date = as.cha
 
   httr::set_config(httr::config(ssl_verifypeer=0L))
 
-  # Read OpenET API key from an external text file
-  api_key <- readLines('C:/Users/u10543/OneDrive - Metropolitan Water District of So Cal/OpenET/OpenET API key.txt', warn=F)
-
   url <- 'https://openet.dri.edu/raster/timeseries/multipolygon'  # URL for the API raster multipolygon endpoint
 
   response <- GET(url, add_headers(accept = "application/json", Authorization = api_key),
