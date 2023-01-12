@@ -35,9 +35,13 @@ getOpenET_fields(
 \value{
 Returns a data frame with (months) x (fields) rows and 5 columns:
 
-<start_date>  Start date of the month
+<start_date>  Start date of the month, in 'yyyy-mm-dd' format
 
 <end_date>    End date of the month
+
+<month>       Numeric month, extracted from <start_date>
+
+<year>        Numeric year, extracted from <start_date>
 
 <field>       OpenET field id
 

@@ -8,7 +8,7 @@ getOpenET_polygon(
   geometry,
   start_date = "2021-01-01",
   end_date = as.character(Sys.Date()),
-  model = "ensemble_mean",
+  model = "ensemble",
   variable = "et",
   units = "english",
   ref_et_source = "cimis",
@@ -27,7 +27,7 @@ getOpenET_polygon(
 
 \item{end_date}{The end date as a string in 'yyyy-mm-dd' format. Defaults to today's date.}
 
-\item{model}{The ET model: 'ensemble_mean', 'eemetric', 'ssebop', 'geesebal', 'sims', 'disalexi', 'ptjpl'. Defaults to 'ensemble_mean'.}
+\item{model}{The ET model: 'ensemble', 'eemetric', 'ssebop', 'geesebal', 'sims', 'disalexi', 'ptjpl'. Defaults to 'ensemble_mean'.}
 
 \item{variable}{Variable to fetch: 'et', 'ndvi', 'et_reference', 'et_fraction', 'count'. Defaults to 'et'.}
 
@@ -50,7 +50,13 @@ getOpenET_polygon(
 \value{
 Returns a data frame with one row per time interval and 3 columns:
 
-<date>    Date
+<date>    Date, in 'yyyy-mm-dd' format
+
+<year>    Numeric year, extracted from <date>
+
+<month>   Numeric month, extracted from <date>
+
+<julian>  Numeric julian day of year, extracted from <date>
 
 <et>      Daily or monthly ET, depending on chosen interval, in either inches or mm, depending on chosen units
 
