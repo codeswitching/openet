@@ -86,4 +86,5 @@ https://openet.dri.edu/docs#/raster/raster_timeseries_polygon_raster_timeseries_
 }
 \examples{
 getOpenET_polygon(geometry = c(-114.2, 33.5, -114.8, 33.7, -114.0, 33.0), start_date = '2020-01-01', end_date = '2021-12-31', model = 'ensemble_mean', units = 'metric', interval = 'daily', api_key = 'mykey')
+
 }

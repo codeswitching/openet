@@ -61,4 +61,5 @@ https://openet.dri.edu/docs#/raster/raster_timeseries_multipolygon_raster_timese
 }
 \examples{
 getOpenET_multipolygon(start_date = '2021-01-01', end_date = '2021-12-31', model = 'ensemble_mean', units = 'mm', interval = 'daily', shapefile_asset_id = 'projects/penman/my_shapefile', output_file_format = 'csv', api_key = 'mykey')
+
 }

@@ -49,6 +49,8 @@
 #' <units>   'inches' or 'mm'
 #'
 #' @examples getOpenET_polygon(geometry = c(-114.2, 33.5, -114.8, 33.7, -114.0, 33.0), start_date = '2020-01-01', end_date = '2021-12-31', model = 'ensemble_mean', units = 'metric', interval = 'daily', api_key = 'mykey')
+#'
+#' @export
 
 
 getOpenET_polygon <- function (geometry, start_date = '2021-01-01', end_date = as.character(Sys.Date()),
@@ -57,10 +59,6 @@ getOpenET_polygon <- function (geometry, start_date = '2021-01-01', end_date = a
                                pixel_aggregation = 'mean', api_key = '')
 
 {
-  library(httr)      # API tools for R
-  library(dplyr)     # case_when
-  library(lubridate) # month, year, yday functions for extacting date vars
-
   httr::set_config(httr::config(ssl_verifypeer=0L))         # turn off ssl_verify (for use behind firewall)
 
   url <- 'https://openet.dri.edu/raster/timeseries/polygon' # URL for the API's timeseries/features/monthly endpoint

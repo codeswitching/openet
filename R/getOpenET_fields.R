@@ -43,15 +43,12 @@
 #'
 #' @examples getOpenET_fields('AZ', c('06323746', '06435895'), '2020-01-01', '2021-12-31', 'ensemble_mean', 'et', 'metric', 'mykey')
 #' @examples getOpenET_fields(field_ids = '065746833', start_date = '2021-01-01', end_date = '2022-12-31', api_key = 'mykey')
-
+#'
+#' @export
 
 getOpenET_fields <- function (state = 'CA', field_ids = '06323746', start_date = '2021-01-01', end_date = as.character(Sys.Date()-14),
                               model = 'ensemble_mean', variable = 'et', units = 'english', api_key = '')
 {
-  library(httr)      # API tools for R
-  library(lubridate) # month() and year()
-  library(dplyr)     # case_when
-
   httr::set_config(httr::config(ssl_verifypeer=0L))  # turn off ssl_verify (for use behind firewall)
 
   url <- 'https://openet.dri.edu/timeseries/features/monthly' # URL for the API's timeseries/features/monthly endpoint
@@ -61,19 +58,19 @@ getOpenET_fields <- function (state = 'CA', field_ids = '06323746', start_date =
   field_ids <- substr(field_ids, 1, nchar(field_ids)-1)     # remove comma after last id
   field_ids <- paste0('[', field_ids, ']')                  # add brackets around the ids
 
-  response <- POST(url,
-                   add_headers(accept = 'application/json',         # type of response to accept
-                               Authorization = api_key,             # API key
-                               content_type = 'application/json'),  # tells server how the body data is formatted
-                   encode = 'json',                                 # tells POST how to encode the body list
-                   body = list(feature_collection_name = state,
-                               field_ids     = field_ids,
-                               model         = model,
-                               variable      = variable,
-                               start_date    = start_date,
-                               end_date      = end_date,
-                               units         = units,
-                               output_format = 'json'))
+  response <- httr::POST(url,
+                         add_headers(accept = 'application/json',         # type of response to accept
+                                     Authorization = api_key,             # API key
+                                     content_type = 'application/json'),  # tells server how the body data is formatted
+                         encode = 'json',                                 # tells POST how to encode the body list
+                         body = list(feature_collection_name = state,
+                                     field_ids     = field_ids,
+                                     model         = model,
+                                     variable      = variable,
+                                     start_date    = start_date,
+                                     end_date      = end_date,
+                                     units         = units,
+                                     output_format = 'json'))
 
   if (http_error(response)) {                     # If the server returned an error...
     cat('The API server returned an error:\n')
@@ -92,8 +89,6 @@ getOpenET_fields <- function (state = 'CA', field_ids = '06323746', start_date =
     etdata <- tryCatch({                            # Unpack the list into a data frame
       data.frame(start_date = as.Date(sapply(response_data,      function(x) x$start_date)),
                  end_date   = as.Date(sapply(response_data,      function(x) x$end_date)),
-                 month      = month(start_date),
-                 year       = year(start_date),
                  field      = as.character(sapply(response_data, function(x) x$feature_unique_id)),
                  et         = as.numeric(sapply(response_data,   function(x) x$data_value)),
                  units      = ifelse(units == 'english', 'inches', 'mm'))
@@ -102,6 +97,10 @@ getOpenET_fields <- function (state = 'CA', field_ids = '06323746', start_date =
       return(NULL)
     })
     }
+
+  # Extract date variables for month and year
+  etdata <- mutate(etdata, month = month(start_date),
+                   year       = year(start_date))
 
   return(etdata)  # return the data frame
 }

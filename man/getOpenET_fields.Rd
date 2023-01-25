@@ -70,4 +70,5 @@ https://openet.dri.edu/docs#/timeseries/feature_timeseries_annual_timeseries_fea
 \examples{
 getOpenET_fields('AZ', c('06323746', '06435895'), '2020-01-01', '2021-12-31', 'ensemble_mean', 'et', 'metric', 'mykey')
 getOpenET_fields(field_ids = '065746833', start_date = '2021-01-01', end_date = '2022-12-31', api_key = 'mykey')
+
 }
