@@ -17,13 +17,13 @@ The package provides three functions for accessing the API. Which one you use de
 2. One user-defined polygon -> `getOpenET_polygon()`
 3. Many user-defined polygons -> `getOpenET_multipolygon()`
 
-OpenET's built-in fields are the most convenient to use because you only need to know the field id's. However, the boundaries might not match up with exactly the area you want, and only monthly data is available from this endpoint. Or you may be interested in a natural area such as a forest where there are no defined fields. In these cases, you must use one of the polygon functions.
+OpenET's built-in fields are the most convenient to use because you only need to know the field id's, which can be determined from the web app. However, the boundaries might not match up with exactly the area you want, and only monthly data is available from this endpoint. Or you may be interested in a natural area such as a forest or floodplain where there are no defined fields. In these cases, you must use one of the polygon functions.
 
-If your area can be contained within a single polygon, the `getOpenET_polygon` function is the next best option. It is easy to copy-paste the coordinates of a user-defined polygon into R using the Draw Custom Area feature of the OpenET web app.
+If your area can be contained within a single polygon, the `getOpenET_polygon()` function is the next best option. It is easy to copy-paste the coordinates of a user-defined polygon into R using the Draw Custom Area feature of the OpenET web app.
 
-The most cumbersome option is `getOpenET_multipolygon` because you must create a Google Earth Engine account, upload a shapefile, provide read access to OpenET's API, and then pass the shapefile's asset ID to the function. Still, with a bit of effort this is not too difficult by following the instructions on the API documentation. Because this data can be quite large, the function does not return the data directly as a data frame like the other two. It instead returns a url that can be used within R to download a .csv file.
+The least convenient option is `getOpenET_multipolygon()` because you must create a Google Earth Engine account, upload a shapefile, share the shapefile with OpenET's API, and then pass the shapefile's asset ID to the function. Still, with a bit of effort this is not too difficult by following the [instructions](https://open-et.github.io/docs/build/html/ras_timeseries.html#raster-timeseries-multipolygon) on the API documentation for the raster/multipolygon endpoint. Because this data can be quite large, the function does not return the data directly as a data frame like the other two. It instead returns a url that can be used to download a .csv file, either through your browser or within R.
 
-There is also a `getOpenET_quota()` function which will provide the expiration date and quota limits for your key.
+Finally, there is a `getOpenET_quota()` function which will provide the expiration date and quota limits for your API key. This is usefule for testing that your key is valid and working.
 
 ## How to install
 
@@ -35,15 +35,15 @@ Install the `devtools` package from CRAN, if not already installed, then run:
 
 ## Documentation
 
-All functions are fully documented with examples. To read the documentation, use `?getOpenET_fields`
+All functions are fully documented with examples. To read the documentation, use e.g. `?getOpenET_fields`
 
-It is recommended to also read the [OpenET API documentation](https://open-et.github.io/docs/build/html/index.html) for the endpoints of interest. There is also a [Swagger testbed](https://openet.dri.edu/docs) for the API, which can be useful for confirming whether parameters are specified correctly.
+It is recommended to also read the [OpenET API documentation](https://open-et.github.io/docs/build/html/index.html) for the endpoints of interest. There is also a [Swagger testbed](https://openet.dri.edu/docs) for the API, which can be useful for confirming whether your parameters are specified correctly.
 
-See `openet package demo.R` in this repository for examples of how to fetch and visualize ET data.
+See the vignette `openet-package-demo.Rmd` in this repository for examples of how to fetch and visualize ET data.
 
 ## Parameters
 
-Parameter names and values are usually identical to those given in the API documentation. One exception is that I have standardized the name of the ensemble model to `'ensemble'` for all functions, even though some API endpoints use `'ensemble_mean'`.
+Parameter names and values are *usually* identical to those given in the API documentation. One exception is that the name of the ensemble model has been standardized  to `'ensemble'` for all functions, even though some API endpoints use `'ensemble_mean'`.
 
 Note that nearly all parameters, including 'true' and 'false', must be passed as strings. It is particularly important to treat OpenET field id's as strings since they may contain leading zeros. One exception is the `geometry` parameter in the `getOpenET_polygon` function, which must be passed as a numeric vector of lat/long coordinates. See the documentation for this function as there is a clever way to extract the coordinates using the OpenET web app.
 
@@ -51,7 +51,7 @@ Note that nearly all parameters, including 'true' and 'false', must be passed as
 
 An OpenET API key is required to use this package; obtain one at https://auth.etdata.org
 
-API keys are renewed from time to time and it can be annoying if the keys are baked into your R scripts. An alternative is to store the key in a .txt file somewhere on your computer and then read it in at the start of your script:
+API keys are renewed from time to time and it can be inconvenient to have the keys are baked into your R scripts. An alternative is to store the key in a .txt file somewhere on your computer and then read it in at the start of your script:
 
 `my_key <- readLines('my_API_key.txt', warn=F)`
 
@@ -67,7 +67,7 @@ These endpoints are more complex and have rarer use cases, or they return raster
 
 ## Dependencies
 
-httr, dplyr
+httr, dplyr, lubridate
 
 ---
 
