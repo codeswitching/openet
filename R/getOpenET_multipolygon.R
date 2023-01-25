@@ -10,14 +10,14 @@
 #'
 #' https://openet.dri.edu/docs#/raster/raster_timeseries_multipolygon_raster_timeseries_multipolygon_get
 #'
-#' @param start_date The start date in yyyy-mm-dd format.
+#' @param start_date          The start date in yyyy-mm-dd format.
 #' @param end_date            The end date in yyyy-mm-dd format. Defaults to today's date.
 #' @param model               'ensemble_mean', 'eemetric', 'ssebop', 'geesebal', 'sims', 'disalexi', 'ptjpl'. Defaults to 'ensemble_mean'.
-#' @param variable            'et', 'ndvi', 'et_reference', 'et_fraction', 'count'. Defaults to 'et'.
+#' @param variable            'et', 'ndvi', 'et_mad_min', 'et_mad_max', 'etof', 'eto', 'pr'. Defaults to 'et'.
 #' @param units               'metric', 'english'. Defaults to 'english'.
 #' @param ref_et_source       Reference ET source, either 'cimis' (CA only) or 'gridmet' (all states). Defaults to 'cimis'.
 #' @param interval            'daily', 'monthly'. Defaults to 'monthly'.
-#' @param shapefile_asset_id  Path to an Earth Engine shapefile asset containing the polygons.
+#' @param shapefile_asset_id  Path to an Earth Engine shapefile asset containing the polygons. Eg. 'tbombadil/projects/assets/myshapes'
 #' @param include_columns     Additional (non-OpenET) columns from the shapefile to include in the resulting data frame.
 #' @param output_file_format  'geojson', 'csv'. Defaults to 'csv'.
 #' @param filename_suffix     String to append to filename, for identification.
@@ -32,13 +32,10 @@
 
 getOpenET_multipolygon <- function (start_date = '2020-01-01', end_date = as.character(Sys.Date()), model = 'ensemble_mean',
                        variable = 'et', ref_et_source = 'cimis', units = 'english', interval = 'monthly',
-                       shapefile_asset_id = 'projects/lsteely/assets/MWD_Parcels', include_columns = 'PVID_PARNU,WT_ACRES',
-                       output_file_format = 'csv', filename_suffix = 'ls', api_key = '')
+                       shapefile_asset_id = '', include_columns = '',
+                       output_file_format = 'csv', filename_suffix = '', api_key = '')
 
 {
-
-  library(httr)      # API tools for R
-
   httr::set_config(httr::config(ssl_verifypeer=0L))
 
   url <- 'https://openet.dri.edu/raster/timeseries/multipolygon'  # URL for the API raster multipolygon endpoint
@@ -57,7 +54,8 @@ getOpenET_multipolygon <- function (start_date = '2020-01-01', end_date = as.cha
 
   if (http_error(response)) {                     # if the server returned an error
     cat('The API server returned an error:\n')
-    cat(http_status(response)$message) }
+    cat(http_status(response)$message)
+    return(NULL) }
   else {                                          # if successful
     cat(content(response)$status)
     response_url <- content(response)$bucket_url  # read the url for the requested data

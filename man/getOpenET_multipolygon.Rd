@@ -12,10 +12,10 @@ getOpenET_multipolygon(
   ref_et_source = "cimis",
   units = "english",
   interval = "monthly",
-  shapefile_asset_id = "projects/lsteely/assets/MWD_Parcels",
-  include_columns = "PVID_PARNU,WT_ACRES",
+  shapefile_asset_id = "",
+  include_columns = "",
   output_file_format = "csv",
-  filename_suffix = "ls",
+  filename_suffix = "",
   api_key = ""
 )
 }
@@ -26,7 +26,7 @@ getOpenET_multipolygon(
 
 \item{model}{'ensemble_mean', 'eemetric', 'ssebop', 'geesebal', 'sims', 'disalexi', 'ptjpl'. Defaults to 'ensemble_mean'.}
 
-\item{variable}{'et', 'ndvi', 'et_reference', 'et_fraction', 'count'. Defaults to 'et'.}
+\item{variable}{'et', 'ndvi', 'et_mad_min', 'et_mad_max', 'etof', 'eto', 'pr'. Defaults to 'et'.}
 
 \item{ref_et_source}{Reference ET source, either 'cimis' (CA only) or 'gridmet' (all states). Defaults to 'cimis'.}
 
@@ -34,7 +34,7 @@ getOpenET_multipolygon(
 
 \item{interval}{'daily', 'monthly'. Defaults to 'monthly'.}
 
-\item{shapefile_asset_id}{Path to an Earth Engine shapefile asset containing the polygons.}
+\item{shapefile_asset_id}{Path to an Earth Engine shapefile asset containing the polygons. Eg. 'tbombadil/projects/assets/myshapes'}
 
 \item{include_columns}{Additional (non-OpenET) columns from the shapefile to include in the resulting data frame.}
 
