@@ -43,17 +43,17 @@ getOpenET_multipolygon <- function (start_date = '2020-01-01', end_date = as.cha
 
   url <- 'https://openet.dri.edu/raster/timeseries/multipolygon'  # URL for the API raster multipolygon endpoint
 
-  response <- GET(url, add_headers(accept = "application/json", Authorization = api_key),
-                  query = list(start_date         = start_date,
-                               end_date           = end_date,
-                               model              = model,
-                               variable           = variable,
-                               ref_et_source      = ref_et_source,
-                               units              = units,
-                               shapefile_asset_id = shapefile_asset_id,
-                               interval           = interval,
-                               include_columns    = include_columns,
-                               filename_suffix    = filename_suffix))
+  response <- httr::GET(url, add_headers(accept = "application/json", Authorization = api_key),
+                        query = list(start_date         = start_date,
+                                     end_date           = end_date,
+                                     model              = model,
+                                     variable           = variable,
+                                     ref_et_source      = ref_et_source,
+                                     units              = units,
+                                     shapefile_asset_id = shapefile_asset_id,
+                                     interval           = interval,
+                                     include_columns    = include_columns,
+                                     filename_suffix    = filename_suffix))
 
   if (http_error(response)) {                     # if the server returned an error
     cat('The API server returned an error:\n')

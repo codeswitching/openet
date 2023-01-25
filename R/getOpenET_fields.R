@@ -81,7 +81,7 @@ getOpenET_fields <- function (state = 'CA', field_ids = '06323746', start_date =
       response$status_code == 422 ~ 'Malformed parameter data - check your parameter types and formatting',
     )
     cat(helpful_error, '\n')                        # print a more helpful error message
-    etdata <- NULL                                  # return a null data frame
+    return(NULL)                                    # return a null data frame
     }
   else {                                          # Else if successful...
     cat('Server reports', http_status(response)$message, '\n')        # print a success message
@@ -99,8 +99,8 @@ getOpenET_fields <- function (state = 'CA', field_ids = '06323746', start_date =
     }
 
   # Extract date variables for month and year
-  etdata <- mutate(etdata, month = month(start_date),
-                   year       = year(start_date))
+  etdata <- dplyr::mutate(etdata, month = lubridate::month(start_date),
+                                  year  = lubridate::year(start_date))
 
   return(etdata)  # return the data frame
 }

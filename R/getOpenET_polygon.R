@@ -63,35 +63,35 @@ getOpenET_polygon <- function (geometry, start_date = '2021-01-01', end_date = a
 
   url <- 'https://openet.dri.edu/raster/timeseries/polygon' # URL for the API's timeseries/features/monthly endpoint
 
-  response <- POST(url,
-                   add_headers(accept = 'application/json',         # type of response to accept
-                               Authorization = api_key,             # API key
-                               content_type = 'application/json'),  # tells server how the body data is formatted
-                   encode = 'json',                                 # tells POST how to encode the body list
-                   body = list(geometry      = geometry,
-                               model         = model,
-                               variable      = variable,
-                               start_date    = start_date,
-                               end_date      = end_date,
-                               units         = units,
-                               output_file_format = 'json',
-                               ref_et_source = ref_et_source,
-                               provisional   = provisional,
-                               interval      = interval,
-                               moving_average = moving_average,
-                               best_effort = best_effort,
-                               pixel_aggregation = pixel_aggregation))
+  response <- httr::POST(url,
+                         add_headers(accept = 'application/json',         # type of response to accept
+                                     Authorization = api_key,             # API key
+                                     content_type = 'application/json'),  # tells server how the body data is formatted
+                         encode = 'json',                                 # tells POST how to encode the body list
+                         body = list(geometry      = geometry,
+                                     model         = model,
+                                     variable      = variable,
+                                     start_date    = start_date,
+                                     end_date      = end_date,
+                                     units         = units,
+                                     output_file_format = 'json',
+                                     ref_et_source = ref_et_source,
+                                     provisional   = provisional,
+                                     interval      = interval,
+                                     moving_average = moving_average,
+                                     best_effort = best_effort,
+                                     pixel_aggregation = pixel_aggregation))
 
   if (http_error(response)) {                     # If the server returned an error...
     cat('The API server returned an error:\n')
     cat(http_status(response)$message, '\n')       # print the server's error message
-    helpful_error <- case_when(
+    helpful_error <- dplyr::case_when(
       response$status_code == 401 ~ 'API key may be invalid',
       response$status_code == 403 ~ 'API key may be invalid',
       response$status_code == 422 ~ 'Malformed parameter data - check your parameter types and formatting',
     )
     cat(helpful_error, '\n')                        # print a more helpful error message
-    etdata <- NULL
+    return(NULL)
     }                                                # return a null data frame
   else {                                          # Else if successful...
     cat('Server reports', http_status(response)$message, '\n')        # print a success message
@@ -106,9 +106,9 @@ getOpenET_polygon <- function (geometry, start_date = '2021-01-01', end_date = a
     })
   }
 
-  etdata <- etdata |> mutate(year   = year(date),   # extract year from date and add year column
-                             month  = month(date), # extract month from date and add month column
-                             julian = yday(date))  # add julian day of year column
+  etdata <- dplyr::mutate(etdata, year   = lubridate::year(date),   # extract year from date and add year column
+                                  month  = lubridate::month(date),  # extract month from date and add month column
+                                  julian = lubridate::yday(date))   # add julian day of year column
 
   return(etdata)
 }
