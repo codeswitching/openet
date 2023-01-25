@@ -45,7 +45,12 @@ getOpenET_quota <- function (api_key = '')
 
   if (http_error(response1)) {                     # if the server returned an error
     cat('The API server returned an error:\n')
-    cat(http_status(response1)$message) }
+    cat(http_status(response1)$message, '\n')      # print the server's error message
+    helpful_error <- dplyr::case_when(             # print a helpful error message
+      response1$status_code == 401 ~ 'The API key may be invalid',
+      response1$status_code == 403 ~ 'The API key may be expired'
+    )
+    cat(helpful_error, '\n') }
   else {                                          # if successful
     cat(content(response1)$status)
     expirydate <- as.Date(content(response1)$`Expiration date`)  # read the expiration date

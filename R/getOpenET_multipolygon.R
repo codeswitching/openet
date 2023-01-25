@@ -61,7 +61,8 @@ getOpenET_multipolygon <- function (start_date = '2020-01-01', end_date = as.cha
   else {                                          # if successful
     cat(content(response)$status)
     response_url <- content(response)$bucket_url  # read the url for the requested data
-    cat('When ready, requested data can be accessed at this url:\n', response_url, '\n')
+    cat('When ready, the data can be accessed at this url:\n', response_url, '\n')
+    cat('Request may take minutes to hours to complete and will return a 403 error until then.\n')
     }
 
   return(response_url) # return the url for the requested data (may take minutes or hours)

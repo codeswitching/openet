@@ -75,7 +75,7 @@ getOpenET_fields <- function (state = 'CA', field_ids = '06323746', start_date =
   if (http_error(response)) {                     # If the server returned an error...
     cat('The API server returned an error:\n')
     cat(http_status(response)$message, '\n')        # print the server's error message
-    helpful_error <- case_when(
+    helpful_error <- dplyr::case_when(
       response$status_code == 401 ~ 'API key may be invalid',
       response$status_code == 403 ~ 'API key may be invalid',
       response$status_code == 422 ~ 'Malformed parameter data - check your parameter types and formatting',
