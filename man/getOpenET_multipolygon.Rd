@@ -34,7 +34,7 @@ getOpenET_multipolygon(
 
 \item{interval}{'daily', 'monthly'. Defaults to 'monthly'.}
 
-\item{shapefile_asset_id}{Path to an Earth Engine shapefile asset containing the polygons. Eg. 'tbombadil/projects/assets/myshapes'. Note that it must be shared with OpenET and cannot exceed 1500 polygons.}
+\item{shapefile_asset_id}{Path to an Earth Engine shapefile asset containing the polygons. Eg. 'tbombadil/projects/assets/myshapes'. Note that it must be shared with OpenET and cannot exceed your quota's max_polygons and max_acres limits.}
 
 \item{include_columns}{Additional (non-OpenET) columns from the shapefile to include in the resulting data frame.}
 

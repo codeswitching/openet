@@ -17,7 +17,7 @@
 #' @param units               'metric', 'english'. Defaults to 'english'.
 #' @param ref_et_source       Reference ET source, either 'cimis' (CA only) or 'gridmet' (all states). Defaults to 'cimis'.
 #' @param interval            'daily', 'monthly'. Defaults to 'monthly'.
-#' @param shapefile_asset_id  Path to an Earth Engine shapefile asset containing the polygons. Eg. 'tbombadil/projects/assets/myshapes'. Note that it must be shared with OpenET and cannot exceed 1500 polygons.
+#' @param shapefile_asset_id  Path to an Earth Engine shapefile asset containing the polygons. Eg. 'tbombadil/projects/assets/myshapes'. Note that it must be shared with OpenET and cannot exceed your quota's max_polygons and max_acres limits.
 #' @param include_columns     Additional (non-OpenET) columns from the shapefile to include in the resulting data frame.
 #' @param output_file_format  'geojson', 'csv'. Defaults to 'csv'.
 #' @param filename_suffix     String to append to output filename, for identification.
@@ -40,7 +40,7 @@ getOpenET_multipolygon <- function (start_date = '2020-01-01', end_date = as.cha
 
   url <- 'https://openet.dri.edu/raster/timeseries/multipolygon'  # URL for the API raster multipolygon endpoint
 
-  response <- httr::GET(url, add_headers(accept = "application/json", Authorization = api_key),
+  response <- httr::GET(url, add_headers(accept = 'application/json', Authorization = api_key),
                         query = list(start_date         = start_date,
                                      end_date           = end_date,
                                      model              = model,
@@ -59,10 +59,10 @@ getOpenET_multipolygon <- function (start_date = '2020-01-01', end_date = as.cha
     cat(http_status(response)$message)
     return(NULL) }
   else {                                          # if successful
-    cat(content(response)$status)
-    response_url <- content(response)$bucket_url  # read the url for the requested data
+    cat(content(response)$status, '\n')            # output the server message
+    response_url <- content(response)$destination  # read the url for the requested data
     cat('When ready, the data can be accessed at this url:\n', response_url, '\n')
-    cat('Request may take minutes to hours to complete and will return a 403 error until then.\n')
+    cat('Request may take minutes to hours to complete and the url will return a 403 error until then.\n')
     }
 
   return(response_url) # return the url for the requested data (may take minutes or hours)
