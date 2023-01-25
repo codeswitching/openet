@@ -63,7 +63,7 @@ Returns a data frame with one row per time interval and 3 columns:
 <units>   'inches' or 'mm'
 }
 \description{
-`getOpenET_polygon` makes calls to the OpenET /raster/timeseries/polygon API endpoint. Use this function when you want
+Makes calls to the OpenET /raster/timeseries/polygon API endpoint. Use this function when you want
 to get data for a single user-defined polygon instead of using OpenET's built-in fields. Data is returned as an R data frame.
 }
 \details{

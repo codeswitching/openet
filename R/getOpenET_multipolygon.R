@@ -1,6 +1,6 @@
 #' Timeseries of monthly/daily ET for multiple custom polygons
 #'
-#' `getOpenET_multipolygon` makes calls to the OpenET Raster/Timeseries/Multipolygon API endpoint.
+#' Makes calls to the OpenET Raster/Timeseries/Multipolygon API endpoint.
 #'
 #' OpenET API documentation:
 #'
@@ -17,10 +17,10 @@
 #' @param units               'metric', 'english'. Defaults to 'english'.
 #' @param ref_et_source       Reference ET source, either 'cimis' (CA only) or 'gridmet' (all states). Defaults to 'cimis'.
 #' @param interval            'daily', 'monthly'. Defaults to 'monthly'.
-#' @param shapefile_asset_id  Path to an Earth Engine shapefile asset containing the polygons. Eg. 'tbombadil/projects/assets/myshapes'
+#' @param shapefile_asset_id  Path to an Earth Engine shapefile asset containing the polygons. Eg. 'tbombadil/projects/assets/myshapes'. Note that it must be shared with OpenET and cannot exceed 1500 polygons.
 #' @param include_columns     Additional (non-OpenET) columns from the shapefile to include in the resulting data frame.
 #' @param output_file_format  'geojson', 'csv'. Defaults to 'csv'.
-#' @param filename_suffix     String to append to filename, for identification.
+#' @param filename_suffix     String to append to output filename, for identification.
 #' @param api_key             OpenET API key (long string), obtain from https://auth.etdata.org
 #'
 #' @returns A string containing the url from which the data can be downloaded as a .csv file.
@@ -31,9 +31,9 @@
 
 
 getOpenET_multipolygon <- function (start_date = '2020-01-01', end_date = as.character(Sys.Date()), model = 'ensemble_mean',
-                       variable = 'et', ref_et_source = 'cimis', units = 'english', interval = 'monthly',
-                       shapefile_asset_id = '', include_columns = '',
-                       output_file_format = 'csv', filename_suffix = '', api_key = '')
+                                    variable = 'et', ref_et_source = 'cimis', units = 'english', interval = 'monthly',
+                                    shapefile_asset_id = '', include_columns = '',
+                                    output_file_format = 'csv', filename_suffix = '', api_key = '')
 
 {
   httr::set_config(httr::config(ssl_verifypeer=0L))
@@ -48,8 +48,10 @@ getOpenET_multipolygon <- function (start_date = '2020-01-01', end_date = as.cha
                                      ref_et_source      = ref_et_source,
                                      units              = units,
                                      shapefile_asset_id = shapefile_asset_id,
+                                     provisional        = 'true',
                                      interval           = interval,
                                      include_columns    = include_columns,
+                                     output_file_format = output_file_format,
                                      filename_suffix    = filename_suffix))
 
   if (http_error(response)) {                     # if the server returned an error

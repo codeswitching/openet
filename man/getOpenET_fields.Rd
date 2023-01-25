@@ -50,7 +50,7 @@ Returns a data frame with (months) x (fields) rows and 5 columns:
 <units>       'inches' or 'mm'
 }
 \description{
-`getOpenET_fields` makes calls to the OpenET /timeseries/features/monthly API endpoint. Use this function when you
+Makes calls to the OpenET /timeseries/features/monthly API endpoint. Use this function when you
 want to use OpenET's built-in field boundaries, and you know the field id's of the specific field(s). The field id's
 can be found by clicking on fields in the OpenET web app and looking at the top of the resulting popup. Data is
 returned as an R data frame.

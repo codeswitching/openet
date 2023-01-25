@@ -34,13 +34,13 @@ getOpenET_multipolygon(
 
 \item{interval}{'daily', 'monthly'. Defaults to 'monthly'.}
 
-\item{shapefile_asset_id}{Path to an Earth Engine shapefile asset containing the polygons. Eg. 'tbombadil/projects/assets/myshapes'}
+\item{shapefile_asset_id}{Path to an Earth Engine shapefile asset containing the polygons. Eg. 'tbombadil/projects/assets/myshapes'. Note that it must be shared with OpenET and cannot exceed 1500 polygons.}
 
 \item{include_columns}{Additional (non-OpenET) columns from the shapefile to include in the resulting data frame.}
 
 \item{output_file_format}{'geojson', 'csv'. Defaults to 'csv'.}
 
-\item{filename_suffix}{String to append to filename, for identification.}
+\item{filename_suffix}{String to append to output filename, for identification.}
 
 \item{api_key}{OpenET API key (long string), obtain from https://auth.etdata.org}
 }
@@ -48,7 +48,7 @@ getOpenET_multipolygon(
 A string containing the url from which the data can be downloaded as a .csv file.
 }
 \description{
-`getOpenET_multipolygon` makes calls to the OpenET Raster/Timeseries/Multipolygon API endpoint.
+Makes calls to the OpenET Raster/Timeseries/Multipolygon API endpoint.
 }
 \details{
 OpenET API documentation:

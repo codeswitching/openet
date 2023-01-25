@@ -1,6 +1,6 @@
 #' Timeseries of monthly/daily ET for a custom polygon
 #'
-#' `getOpenET_polygon` makes calls to the OpenET /raster/timeseries/polygon API endpoint. Use this function when you want
+#' Makes calls to the OpenET /raster/timeseries/polygon API endpoint. Use this function when you want
 #' to get data for a single user-defined polygon instead of using OpenET's built-in fields. Data is returned as an R data frame.
 #'
 #' If you don't know the lat-long coordinates of your desired polygon, there is an easy way to find it. From the OpenET web app,
