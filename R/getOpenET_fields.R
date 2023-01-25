@@ -59,10 +59,10 @@ getOpenET_fields <- function (state = 'CA', field_ids = '06323746', start_date =
   field_ids <- paste0('[', field_ids, ']')                  # add brackets around the ids
 
   response <- httr::POST(url,
-                         add_headers(accept = 'application/json',         # type of response to accept
-                                     Authorization = api_key,             # API key
-                                     content_type = 'application/json'),  # tells server how the body data is formatted
-                         encode = 'json',                                 # tells POST how to encode the body list
+                         httr::add_headers(accept = 'application/json',         # type of response to accept
+                                           Authorization = api_key,             # API key
+                                           content_type = 'application/json'),  # tells server how the body data is formatted
+                         encode = 'json',                                      # tells POST how to encode the body list
                          body = list(feature_collection_name = state,
                                      field_ids     = field_ids,
                                      model         = model,
@@ -72,20 +72,20 @@ getOpenET_fields <- function (state = 'CA', field_ids = '06323746', start_date =
                                      units         = units,
                                      output_format = 'json'))
 
-  if (http_error(response)) {                     # If the server returned an error...
+  if (httr::http_error(response)) {                 # If the server returned an error...
     cat('The API server returned an error:\n')
-    cat(http_status(response)$message, '\n')        # print the server's error message
+    cat(httr::http_status(response)$message, '\n')    # print the server's error message
     helpful_error <- dplyr::case_when(
       response$status_code == 401 ~ 'API key may be invalid',
       response$status_code == 403 ~ 'API key may be invalid',
       response$status_code == 422 ~ 'Malformed parameter data - check your parameter types and formatting',
     )
-    cat(helpful_error, '\n')                        # print a more helpful error message
-    return(NULL)                                    # return a null data frame
+    cat(helpful_error, '\n')                          # print a more helpful error message
+    return(NULL)                                      # return a null data frame
     }
   else {                                          # Else if successful...
-    cat('Server reports', http_status(response)$message, '\n')        # print a success message
-    response_data <- content(response)              # extract the response data as a list
+    cat('Server reports', httr::http_status(response)$message, '\n')        # print a success message
+    response_data <- httr::content(response)          # extract the response data as a list
     etdata <- tryCatch({                            # Unpack the list into a data frame
       data.frame(start_date = as.Date(sapply(response_data,      function(x) x$start_date)),
                  end_date   = as.Date(sapply(response_data,      function(x) x$end_date)),

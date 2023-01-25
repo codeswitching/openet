@@ -40,7 +40,7 @@ getOpenET_multipolygon <- function (start_date = '2020-01-01', end_date = as.cha
 
   url <- 'https://openet.dri.edu/raster/timeseries/multipolygon'  # URL for the API raster multipolygon endpoint
 
-  response <- httr::GET(url, add_headers(accept = 'application/json', Authorization = api_key),
+  response <- httr::GET(url, httr::add_headers(accept = 'application/json', Authorization = api_key),
                         query = list(start_date         = start_date,
                                      end_date           = end_date,
                                      model              = model,
@@ -54,13 +54,13 @@ getOpenET_multipolygon <- function (start_date = '2020-01-01', end_date = as.cha
                                      output_file_format = output_file_format,
                                      filename_suffix    = filename_suffix))
 
-  if (http_error(response)) {                     # if the server returned an error
+  if (httr::http_error(response)) {               # If the server returned an error
     cat('The API server returned an error:\n')
-    cat(http_status(response)$message)
+    cat(httr::http_status(response)$message)
     return(NULL) }
   else {                                          # if successful
-    cat(content(response)$status, '\n')            # output the server message
-    response_url <- content(response)$destination  # read the url for the requested data
+    cat(httr::content(response)$status, '\n')            # output the server message
+    response_url <- httr::content(response)$destination  # read the url for the requested data
     cat('When ready, the data can be accessed at this url:\n', response_url, '\n')
     cat('Request may take minutes to hours to complete and the url will return a 403 error until then.\n')
     }

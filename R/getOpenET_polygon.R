@@ -64,9 +64,9 @@ getOpenET_polygon <- function (geometry, start_date = '2021-01-01', end_date = a
   url <- 'https://openet.dri.edu/raster/timeseries/polygon' # URL for the API's timeseries/features/monthly endpoint
 
   response <- httr::POST(url,
-                         add_headers(accept = 'application/json',         # type of response to accept
-                                     Authorization = api_key,             # API key
-                                     content_type = 'application/json'),  # tells server how the body data is formatted
+                         httr::add_headers(accept = 'application/json',         # type of response to accept
+                                           Authorization = api_key,             # API key
+                                           content_type = 'application/json'),  # tells server how the body data is formatted
                          encode = 'json',                                 # tells POST how to encode the body list
                          body = list(geometry      = geometry,
                                      model         = model,
@@ -82,9 +82,9 @@ getOpenET_polygon <- function (geometry, start_date = '2021-01-01', end_date = a
                                      best_effort = best_effort,
                                      pixel_aggregation = pixel_aggregation))
 
-  if (http_error(response)) {                     # If the server returned an error...
+  if (httr::http_error(response)) {                 # If the server returned an error...
     cat('The API server returned an error:\n')
-    cat(http_status(response)$message, '\n')       # print the server's error message
+    cat(httr::http_status(response)$message, '\n')    # print the server's error message
     helpful_error <- dplyr::case_when(
       response$status_code == 401 ~ 'API key may be invalid',
       response$status_code == 403 ~ 'API key may be invalid',
@@ -94,9 +94,9 @@ getOpenET_polygon <- function (geometry, start_date = '2021-01-01', end_date = a
     return(NULL)
     }                                                # return a null data frame
   else {                                          # Else if successful...
-    cat('Server reports', http_status(response)$message, '\n')        # print a success message
-    response_data <- content(response)               # extract the returned data as a list
-        etdata <- tryCatch ({                        # unpack the list into a data frame
+    cat('Server reports', httr::http_status(response)$message, '\n')  # print a success message
+    response_data <- httr::content(response)        # extract the returned data as a list
+        etdata <- tryCatch ({                       # unpack the list into a data frame
       data.frame(date  = as.Date(sapply(response_data,    function(x) x$time)),
                  et    = as.numeric(sapply(response_data, function(x) x$et)),
                  units = ifelse(units == 'english', 'inches', 'mm'))

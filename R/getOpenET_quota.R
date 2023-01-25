@@ -40,24 +40,24 @@ getOpenET_quota <- function (api_key = '')
   url1 <- 'https://openet.dri.edu/home/key_expiration'  # URL for the key expiration date endpoint
   url2 <- 'https://openet.dri.edu/home/user/quotas'     # URL for the quota endpoint
 
-  response1 <- GET(url1, add_headers(accept = "application/json", Authorization = api_key))
-  response2 <- GET(url2, add_headers(accept = "application/json", Authorization = api_key))
+  response1 <- httr::GET(url1, httr::add_headers(accept = "application/json", Authorization = api_key))
+  response2 <- httr::GET(url2, httr::add_headers(accept = "application/json", Authorization = api_key))
 
-  if (http_error(response1)) {                     # if the server returned an error
+  if (httr::http_error(response1)) {              # if the server returned an error
     cat('The API server returned an error:\n')
-    cat(http_status(response1)$message, '\n')      # print the server's error message
+    cat(httr::http_status(response1)$message, '\n')   # print the server's error message
     helpful_error <- dplyr::case_when(             # print a helpful error message
       response1$status_code == 401 ~ 'The API key may be invalid',
       response1$status_code == 403 ~ 'The API key may be expired'
     )
     cat(helpful_error, '\n') }
   else {                                          # if successful
-    cat(content(response1)$status)
-    expirydate <- as.Date(content(response1)$`Expiration date`)  # read the expiration date
+    cat(httr::content(response1)$status)
+    expirydate <- as.Date(httr::content(response1)$`Expiration date`)  # read the expiration date
     cat('Your API key will expire on:\n')
     print(expirydate)
 
-    quota <- as.data.frame(content(response2))  # read the quota into a data frame
+    quota <- as.data.frame(httr::content(response2))  # read the quota into a data frame
     }
 
   return(quota)
