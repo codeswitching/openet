@@ -26,7 +26,7 @@ library(tidyverse)
 
 # Read OpenET API key from a local text file or paste it here
 # mykey <- readLines('OpenET API key.txt', warn=F)
-mykey <- 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY3MDg2OTEwMSwianRpIjoiMmUzYmJhOGEtZDk4NS00NTk0LTkzODYtMDQzZWE4YjY3N2VmIiwibmJmIjoxNjcwODY5MTAxLCJ0eXBlIjoiYWNjZXNzIiwic3ViIjoic2pwN3pPRDNjY2VBZENxREtscjFjTzRUNmdNMiIsImV4cCI6MTY4NjQyMTEwMSwicm9sZXMiOiJ1c2VyIiwidXNlcl9pZCI6InNqcDd6T0QzY2NlQWRDcURLbHIxY080VDZnTTIifQ.0RYO_eQeNdkuHfFaD0UCSzUvjmz7BmFbWrmniKtDcxk'
+mykey <- ''
 ```
 
 ## EXAMPLE 1: Fetch user quota and expiration date using `getOpenET_quota()`
