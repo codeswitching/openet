@@ -1,7 +1,7 @@
 # openet
 ## An R package for accessing the OpenET API
 
-![OpenET screenshot](OpenET_screenshot.PNG?raw=true "Open ET screenshot")
+![OpenET screenshot](Dataviz_example.PNG?raw=true "ET dataviz example")
 
 The `openet` package makes your life easier in several ways:
 
@@ -23,7 +23,7 @@ If your area can be contained within a single polygon, the `getOpenET_polygon()`
 
 The least convenient option is `getOpenET_multipolygon()` because you must create a Google Earth Engine account, upload a shapefile, share the shapefile with OpenET's API, and then pass the shapefile's asset ID to the function. Still, with a bit of effort this is not too difficult by following the [instructions](https://open-et.github.io/docs/build/html/ras_timeseries.html#raster-timeseries-multipolygon) on the API documentation for the raster/multipolygon endpoint. Because this data can be quite large, the function does not return the data directly as a data frame like the other two. It instead returns a url that can be used to download a .csv file, either through your browser or within R.
 
-Finally, there is a `getOpenET_quota()` function which will provide the expiration date and quota limits for your API key. This is usefule for testing that your key is valid and working.
+Finally, there is a `getOpenET_quota()` function which will provide the expiration date and quota limits for your API key. This is useful for testing that your key is valid and working.
 
 ## How to install
 
