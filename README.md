@@ -79,4 +79,4 @@ Authored and maintained by Lauren Steely *(lsteely at mwdh2o.com)*
 
 Jan 2023
 
-![Dataviz example 2](Dataviz_example2.png?raw=true "ET dataviz example 2")
+![Dataviz example 2](Dataviz_example2.PNG?raw=true "ET dataviz example 2")
