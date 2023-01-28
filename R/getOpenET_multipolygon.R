@@ -18,7 +18,7 @@
 #' @param ref_et_source       Reference ET source, either 'cimis' (CA only) or 'gridmet' (all states). Defaults to 'cimis'.
 #' @param interval            'daily', 'monthly'. Defaults to 'monthly'.
 #' @param shapefile_asset_id  Path to an Earth Engine shapefile asset containing the polygons. Eg. 'tbombadil/projects/assets/myshapes'. Note that it must be shared with OpenET and cannot exceed your quota's max_polygons and max_acres limits.
-#' @param include_columns     Additional (non-OpenET) columns from the shapefile to include in the resulting data frame.
+#' @param include_columns     Additional (non-OpenET) columns from the shapefile to include in the resulting data frame. Column names should be separated by commas with no spaces in between, e.g. 'column1,column2,column3'.
 #' @param output_file_format  'geojson', 'csv'. Defaults to 'csv'.
 #' @param filename_suffix     String to append to output filename, for identification.
 #' @param api_key             OpenET API key (long string), obtain from https://auth.etdata.org
@@ -56,7 +56,7 @@ getOpenET_multipolygon <- function (start_date = '2020-01-01', end_date = as.cha
 
   if (httr::http_error(response)) {               # If the server returned an error
     cat('The API server returned an error:\n')
-    cat(httr::http_status(response)$message)
+    cat(httr::http_status(response)$message)             # print the error
     return(NULL) }
   else {                                          # if successful
     cat(httr::content(response)$status, '\n')            # output the server message

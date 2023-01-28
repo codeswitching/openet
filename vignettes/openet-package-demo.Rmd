@@ -122,7 +122,7 @@ Finally, we can use the multipolygon endpoint to fetch daily or monthly ET for m
 asset_id <- 'projects/tbombadil/assets/my_polygons'
 
 url <- getOpenET_multipolygon(start_date='2022-01-01', end_date='2022-10-31', model = 'ensemble', interval = 'monthly',
-                       shapefile_asset_id = asset_id, include_columns = 'apn', filename_suffix = 'my_polys', api_key = api_key)
+                       shapefile_asset_id = asset_id, include_columns = 'apn,county,acreage', filename_suffix = 'my_polys', api_key = api_key)
 ```
 
 Note that it may take minutes to hours to process your request, and in the meantime you will get a 403 error if you try to access the url. When it is ready though, you can download the data directly from within R by passing the url to `readr::read_csv()`:

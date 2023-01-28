@@ -47,13 +47,13 @@ See the vignette `openet-package-demo.Rmd` in this repository for examples of ho
 
 Parameter names and values are *usually* identical to those given in the API documentation. One exception is that the name of the ensemble model has been standardized  to `'ensemble'` for all functions, even though some API endpoints use `'ensemble_mean'`.
 
-Note that nearly all parameters, including 'true' and 'false', must be passed as strings. It is particularly important to treat OpenET field id's as strings since they may contain leading zeros. One exception is the `geometry` parameter in the `getOpenET_polygon` function, which must be passed as a numeric vector of lat/long coordinates. See the documentation for this function as there is a clever way to extract the coordinates using the OpenET web app.
+Note that nearly all parameters, including 'true' and 'false', must be passed as strings. It is particularly important to treat OpenET field id's as strings since they may contain leading zeros. One exception is the `geometry` parameter in the `getOpenET_polygon` function, which must be passed as a numeric vector of lat/long coordinates. See the documentation for this function as there is a clever way to extract the coordinates for a custom polygon using the OpenET web app.
 
 ## API Keys
 
 An OpenET API key is required to use this package; obtain one at https://auth.etdata.org
 
-API keys are renewed from time to time and it can be inconvenient to have the keys are baked into your R scripts. An alternative is to store the key in a .txt file somewhere on your computer and then read it in at the start of your script:
+API keys are renewed from time to time and it can be inconvenient to have the keys baked into your R scripts. An alternative is to store the key in a .txt file somewhere on your computer and then read it in at the start of your script:
 
 `my_key <- readLines('my_API_key.txt', warn=F)`
 
