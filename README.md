@@ -41,8 +41,6 @@ It is recommended to also read the [OpenET API documentation](https://open-et.gi
 
 See the vignette `openet-package-demo.Rmd` in this repository for examples of how to fetch and visualize ET data.
 
-![Dataviz example](Dataviz_example.PNG?raw=true "ET dataviz example")
-
 ## Parameters
 
 Parameter names and values are *usually* identical to those given in the API documentation. One exception is that the name of the ensemble model has been standardized  to `'ensemble'` for all functions, even though some API endpoints use `'ensemble_mean'`.
@@ -79,4 +77,10 @@ Authored and maintained by Lauren Steely *(lsteely at mwdh2o.com)*
 
 Jan 2023
 
+## Dataviz examples
+
 ![Dataviz example 2](Dataviz_example2.PNG?raw=true "ET dataviz example 2")
+
+![Dataviz example 3](Dataviz_example3.PNG?raw=true "ET dataviz example 3")
+
+![Dataviz example 1](Dataviz_example.PNG?raw=true "ET dataviz example 1")
