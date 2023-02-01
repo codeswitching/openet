@@ -77,10 +77,10 @@ Authored and maintained by Lauren Steely *(lsteely at mwdh2o.com)*
 
 Jan 2023
 
-<!-- ## Dataviz examples
+## Dataviz examples
 
 ![Dataviz example 2](Dataviz_example2.PNG?raw=true "ET dataviz example 2")
 
 ![Dataviz example 3](Dataviz_example3.PNG?raw=true "ET dataviz example 3")
 
-![Dataviz example 1](Dataviz_example.PNG?raw=true "ET dataviz example 1") --->
+![Dataviz example 1](Dataviz_example.PNG?raw=true "ET dataviz example 1")
