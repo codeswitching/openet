@@ -56,10 +56,11 @@ getOpenET_multipolygon <- function (start_date = '2020-01-01', end_date = as.cha
 
   if (httr::http_error(response)) {               # If the server returned an error
     cat('The API server returned an error:\n')
-    cat(httr::http_status(response)$message)             # print the error
+    cat(httr::http_status(response)$message, '\n')       # print the server error
+    cat(httr::content(response)$detail, '\n')            # output the API message
     return(NULL) }
   else {                                          # if successful
-    cat(httr::content(response)$status, '\n')            # output the server message
+    cat(httr::content(response)$status, '\n')            # output the API message
     response_url <- httr::content(response)$destination  # read the url for the requested data
     cat('When ready, the data can be accessed at this url:\n', response_url, '\n')
     cat('Request may take minutes to hours to complete and the url will return a 403 error until then.\n')
