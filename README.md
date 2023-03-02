@@ -20,11 +20,11 @@ The package provides three functions for accessing the API. Which one you use de
 2. One user-defined polygon -> `getOpenET_polygon()`
 3. Many user-defined polygons -> `getOpenET_multipolygon()`
 
-OpenET's built-in fields are the most convenient to use because you only need to know the field id's, which can be determined from the web app. However, the boundaries might not match up with exactly the area you want, and only monthly data is available from this endpoint. Or you may be interested in a natural area such as a forest or floodplain where there are no defined fields. In these cases, you must use one of the polygon functions.
+OpenET's built-in fields are the most convenient to use because you only need to know the field id's, which can be determined from the web app. However, the boundaries might not match up with exactly the area you want. Or you may be interested in a natural area such as a forest or floodplain where there are no defined fields. Moreover, only monthly data is available from this endpoint, not daily. In all these cases, you must use one of the polygon functions.
 
 If your area can be contained within a single polygon, the `getOpenET_polygon()` function is the next best option. It is easy to copy-paste the coordinates of a user-defined polygon into R using the Draw Custom Area feature of the OpenET web app.
 
-The least convenient option is `getOpenET_multipolygon()` because you must create a Google Earth Engine account, upload a shapefile, share the shapefile with OpenET's API, and then pass the shapefile's asset ID to the function. Still, with a bit of effort this is not too difficult by following the [instructions](https://open-et.github.io/docs/build/html/ras_timeseries.html#raster-timeseries-multipolygon) on the API documentation for the raster/multipolygon endpoint. Because this data can be quite large, the function does not return the data directly as a data frame like the other two. It instead returns a url that can be used to download a .csv file, either through your browser or within R.
+The most powerful but least convenient option is `getOpenET_multipolygon()`, in which you can upload your own custom shapefiles containing multiple polygons. However, you must first create a Google Earth Engine account, upload a shapefile to GEE, share the shapefile with OpenET's API, and then pass the shapefile's asset ID to the function. Still, with a bit of effort this is not too difficult by following the [instructions](https://open-et.github.io/docs/build/html/ras_timeseries.html#raster-timeseries-multipolygon) on the API documentation for the raster/multipolygon endpoint. Because this data can be quite large, the function does not return the data directly as a data frame like the other two. It instead returns a url that can be used to download a .csv file, either through your browser or within R.
 
 Finally, there is a `getOpenET_quota()` function which will provide the expiration date and quota limits for your API key. This is useful for testing that your key is valid and working.
 
@@ -48,11 +48,11 @@ See the vignette `openet-package-demo.Rmd` in this repository for examples of ho
 
 Parameter names and values are *usually* identical to those given in the API documentation. One exception is that the name of the ensemble model has been standardized  to `'ensemble'` for all functions, even though some API endpoints use `'ensemble_mean'`.
 
-Note that nearly all parameters, including 'true' and 'false', must be passed as strings. It is particularly important to treat OpenET field id's as strings since they may contain leading zeros. One exception is the `geometry` parameter in the `getOpenET_polygon` function, which must be passed as a numeric vector of lat/long coordinates. See the documentation for this function as there is a clever way to extract the coordinates for a custom polygon using the OpenET web app.
+Note that nearly all parameter values, including 'true' and 'false', must be passed as strings. It is particularly important to treat OpenET field id's as strings since they may contain leading zeros. One exception is the `geometry` parameter in the `getOpenET_polygon` function, which must be passed as a numeric vector of lat/long coordinates. See the documentation for this function as there is a clever way to extract the coordinates for a custom polygon using the OpenET web app.
 
 ## API Keys
 
-An OpenET API key is required to use this package; obtain one at https://auth.etdata.org
+An OpenET API key is required to use this package and must be passed to all functions. Obtain one at https://auth.etdata.org
 
 API keys are renewed from time to time and it can be inconvenient to have the keys baked into your R scripts. An alternative is to store the key in a .txt file somewhere on your computer and then read it in at the start of your script:
 
@@ -80,7 +80,7 @@ Authored and maintained by Lauren Steely *(lsteely at mwdh2o.com)*
 
 Jan 2023
 
-## Dataviz examples
+## ET dataviz examples
 
 ![Dataviz example 2](Dataviz_example2.PNG?raw=true "ET dataviz example 2")
 
