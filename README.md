@@ -3,11 +3,14 @@
 
 ![OpenET screenshot](OpenET_screenshot.PNG?raw=true "OpenET screenshot")
 
-The `openet` package makes your life easier in several ways:
+[OpenET](openetdata.org) is a web platform that uses the best available science to offer easily-available satellite-based estimates of evapotranspiration (ET) for the entire western U.S. In addition to a convenient web map interface, OpenET also offers an API for routine queries.
 
-- allows you to automate routine calls to OpenET and use the data in markdown reports, dashboards, and reproducible analyses
+The `openet` package for R makes your life easier in several ways:
+
+- allows you to automate routine calls to the OpenET API and use the data in markdown reports, dashboards, and reproducible analyses
 - returns ET data as an analysis-ready, tidy-formatted R data frame in most cases
-- lets you easily tweak parameters like units, time intervals, reference ET source, and spatial statistics
+- lets you easily tweak query parameters like units, time intervals, reference ET source, and spatial statistics
+- provides meaningful server error messages to troubleshoot API issues
 
 ## How to use it
 
