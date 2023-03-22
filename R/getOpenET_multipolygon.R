@@ -57,7 +57,14 @@ getOpenET_multipolygon <- function (start_date = '2020-01-01', end_date = as.cha
   if (httr::http_error(response)) {               # If the server returned an error
     cat('The API server returned an error:\n')
     cat(httr::http_status(response)$message, '\n')       # print the server error
-    cat(httr::content(response)$detail, '\n')            # output the API message
+    helpful_error <- dplyr::case_when(
+      response$status_code == 401 ~ 'API key may be invalid or over quota',
+      response$status_code == 403 ~ 'API key may be invalid or over quota',
+      response$status_code == 404 ~ 'Data may not be available for this date range [yet]',
+      response$status_code == 422 ~ 'Malformed parameter data - check your parameter types and formatting',
+      response$status_code == 500 ~ 'You may need to share the Earth Engine asset with OpenET'
+    )
+    cat(helpful_error, '\n')                        # print a more helpful error message
     return(NULL) }
   else {                                          # if successful
     cat(httr::content(response)$status, '\n')            # output the API message

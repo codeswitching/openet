@@ -60,6 +60,16 @@ API keys are renewed from time to time and it can be inconvenient to have the ke
 
 Then you only need to keep the key current in one text file.
 
+## Errors
+
+HTTP error codes are not well-documented in the API documentation. However, the package will return friendly error messages for a few common issues:
+
+401 ~ API key may be invalid or over quota
+403 ~ API key may be invalid or over quota
+404 ~ Data may not be available for this date range [yet]
+422 ~ Malformed parameter data - check your parameter types and formatting
+500 ~ [Multipolygon queries] Earth ENgine shapefile asset may not have been shared with OpenET
+      
 ## Why are functions not provided for the other timeseries endpoints?
 
 The output from all of the other timeseries endpoints can be obtained with the data from /timeseries/features/monthly (`getOpenET_fields`) and a small amount of data wrangling. For example, one can easily derive annual ET totals or mean/median spatial statistics from the monthly ET output. Since the purpose of this package is to make it easy to bring data into R, it is assumed that you will want to fetch the most granular data and do any aggregation or summary stats on your own in R.

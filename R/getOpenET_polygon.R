@@ -89,7 +89,7 @@ getOpenET_polygon <- function (geometry, start_date = '2021-01-01', end_date = a
       response$status_code == 401 ~ 'API key may be invalid or over quota',
       response$status_code == 403 ~ 'API key may be invalid or over quota',
       response$status_code == 404 ~ 'Data may not be available for this date range [yet]',
-      response$status_code == 422 ~ 'Malformed parameter data - check your parameter types and formatting',
+      response$status_code == 422 ~ 'Malformed parameter data - check your parameter types and formatting'
     )
     cat(helpful_error, '\n')                        # print a more helpful error message
     return(NULL)
