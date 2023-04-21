@@ -60,7 +60,7 @@ API keys are renewed from time to time and it can be inconvenient to have the ke
 
 Then you only need to keep the key current in one text file.
 
-## Errors
+## API Errors
 
 HTTP error codes are not well-documented in the API documentation. However, the package will return friendly error messages for a few common issues:
 
