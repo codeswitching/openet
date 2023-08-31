@@ -10,42 +10,33 @@ getOpenET_polygon(
   end_date = as.character(Sys.Date()),
   model = "ensemble",
   variable = "et",
-  units = "english",
-  ref_et_source = "cimis",
-  provisional = "false",
+  units = "in",
+  reference_et = "cimis",
   interval = "daily",
-  moving_average = "0",
-  best_effort = "true",
-  pixel_aggregation = "mean",
+  reducer = "mean",
   api_key = ""
 )
 }
 \arguments{
-\item{geometry}{A numeric vector containing lat-long pairs. e.g. `c(-114.2, 33.5, -114.8, 33.7, -114.0, 33.0)`}
+\item{geometry}{A numeric vector containing lat-long pairs for a single polygon. e.g. `c(-114.2, 33.5, -114.8, 33.7, -114.0, 33.0)`}
 
 \item{start_date}{The start date as a string in 'yyyy-mm-dd' format.}
 
 \item{end_date}{The end date as a string in 'yyyy-mm-dd' format. Defaults to today's date.}
 
-\item{model}{The ET model: 'ensemble', 'eemetric', 'ssebop', 'geesebal', 'sims', 'disalexi', 'ptjpl'. Defaults to 'ensemble_mean'.}
+\item{model}{The ET model: 'ensemble', 'eemetric', 'ssebop', 'geesebal', 'sims', 'disalexi', 'ptjpl'. Defaults to 'ensemble'.}
 
-\item{variable}{Variable to fetch: 'et', 'ndvi', 'et_reference', 'et_fraction', 'count'. Defaults to 'et'.}
+\item{variable}{Variable to fetch: 'et', 'et_mad_min', 'et_mad_max', 'eto', 'etr', 'etof', 'ndvi'. Defaults to 'et'.}
 
-\item{units}{Units for ET; 'metric' will give mm and 'english' will give inches. Defaults to 'english'.}
+\item{units}{Units for ET; 'mm' or 'in' (inches). Defaults to 'in'.}
 
-\item{ref_et_source}{Reference ET source, either 'cimis' (CA only) or 'gridmet' (all states). Defaults to 'cimis'.}
-
-\item{provisional}{Include most recent months of data, even if provisional? Defaults to 'true'.}
+\item{reference_et}{Reference ET source, either 'cimis' (CA only) or 'gridmet' (all states). Defaults to 'cimis'.}
 
 \item{interval}{Time interval: 'daily' or 'monthly'. Defaults to 'daily'.}
 
-\item{moving_average}{Average the data by x moving time intervals. '0', '1', '2', '3', etc. Defaults to '0'.}
+\item{reducer}{Pixel aggregation method for the polygon: 'mean', 'median', 'min', 'max', or 'sum'. Defaults to 'mean'.}
 
-\item{best_effort}{Use non-pixel-based interpolation for faster daily data? Defaults to 'true.'}
-
-\item{pixel_aggregation}{Statistical spatial summary: 'mean', 'median', 'min', 'max', 'sum', 'count'. Defaults to 'mean'.}
-
-\item{api_key}{Your personal OpenET API key as a string. OCan be obtained from https://auth.etdata.org}
+\item{api_key}{Your personal OpenET API token as a string.}
 }
 \value{
 Returns a data frame with one row per time interval and 3 columns:
@@ -59,6 +50,8 @@ Returns a data frame with one row per time interval and 3 columns:
 <julian>  Numeric julian day of year, extracted from <date>
 
 <et>      Daily or monthly ET, depending on chosen interval, in either inches or mm, depending on chosen units
+
+<model>   Name of the ET model
 
 <units>   'inches' or 'mm'
 }
@@ -76,15 +69,15 @@ the pasted lat/long pairs, e.g. `geom <- c(-114.2, 33.5, -114.8, 33.7, -114.0, 3
 #' Note that all parameters except `gometry` are strings. Most parameters have default values and can therefore be omitted,
 if the defaults are acceptable.
 
-OpenET API Documentation:
+OpenET API Documentation for this endpoint:
 
-https://open-et.github.io/docs/build/html/ras_timeseries.html#raster-timeseries-polygon
+https://openet.gitbook.io/docs/reference/api-reference/raster#timeseries-polygon
 
 OpenET API Testbed:
 
-https://openet.dri.edu/docs#/raster/raster_timeseries_polygon_raster_timeseries_polygon_post
+https://openet-api.org/#/Retrieve%20Raster%20Data/_raster_timeseries_polygon_post
 }
 \examples{
-getOpenET_polygon(geometry = c(-114.2, 33.5, -114.8, 33.7, -114.0, 33.0), start_date = '2020-01-01', end_date = '2021-12-31', model = 'ensemble_mean', units = 'metric', interval = 'daily', api_key = 'mykey')
+getOpenET_polygon(geometry = c(-114.2, 33.5, -114.8, 33.7, -114.0, 33.0), start_date = '2020-01-01', end_date = '2021-12-31', model = 'ensemble', units = 'mm', interval = 'daily', api_key = mykey)
 
 }

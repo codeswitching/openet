@@ -5,32 +5,31 @@
 \title{Timeseries of monthly ET for one or more OpenET fields}
 \usage{
 getOpenET_fields(
-  state = "CA",
   field_ids = "06323746",
-  start_date = "2021-01-01",
+  start_date = paste0(year(Sys.Date()), "-01-01"),
   end_date = as.character(Sys.Date() - 14),
-  model = "ensemble_mean",
+  model = "ensemble",
   variable = "et",
-  units = "english",
+  interval = "monthly",
   api_key = ""
 )
 }
 \arguments{
-\item{state}{Two-letter state abbreviation, e.g. 'CA', 'AZ'. Defaults to 'CA'.}
-
 \item{field_ids}{One or more OpenET field ids, as a string or vector of strings. To determine the field id, click on a field within the OpenET web explorer. Id is shown in the popup title.}
 
-\item{start_date}{The start date as a string in 'yyyy-mm-dd' format.}
+\item{start_date}{The start date as a string in 'yyyy-mm-dd' format. Defaults to start of current year.}
 
 \item{end_date}{The end date as a string in 'yyyy-mm-dd' format. Defaults to two weeks ago.}
 
-\item{model}{ET model to use: 'ensemble_mean', 'eemetric', 'ssebop', 'geesebal', 'sims', 'disalexi', 'ptjpl'. Defaults to 'ensemble_mean'.}
+\item{model}{A vector of one of more ET models to use: 'ensemble', 'eemetric', 'ssebop', 'geesebal', 'sims', 'disalexi', 'ptjpl'. Defaults to 'ensemble'.}
 
-\item{variable}{Variable to fetch: 'et', 'ndvi', 'et_reference', 'et_fraction', 'count'. Defaults to 'et'.}
+\item{variable}{A vector of one or more variables to fetch: 'et', 'et_mad_min', 'et_mad_max', 'eto', 'etr', 'etof', 'ndvi', 'pr'. Defaults to 'et'.}
 
-\item{units}{Units for ET; 'metric' will give mm and 'english' will give inches. Defaults to 'english'.}
+\item{interval}{Time interval: 'daily' or 'monthly'. Defaults to 'monthly'.}
 
-\item{api_key}{Your personal OpenET API key as a string. Can be obtained from https://auth.etdata.org}
+\item{api_key}{Your personal OpenET API token as a string.}
+
+\item{units}{Units for ET; 'mm' or 'in' (inches). Defaults to 'in'.}
 }
 \value{
 Returns a data frame with (months) x (fields) rows and 5 columns:
@@ -68,7 +67,7 @@ OpenET API Testbed:
 https://openet.dri.edu/docs#/timeseries/feature_timeseries_annual_timeseries_features_monthly_post
 }
 \examples{
-getOpenET_fields('AZ', c('06323746', '06435895'), '2020-01-01', '2021-12-31', 'ensemble_mean', 'et', 'metric', 'mykey')
-getOpenET_fields(field_ids = '065746833', start_date = '2021-01-01', end_date = '2022-12-31', api_key = 'mykey')
+getOpenET_fields(field_ids = c('06323746', '06435895'), '2020-01-01', '2021-12-31', 'ensemble', 'et', 'metric', mykey)
+getOpenET_fields(field_ids = '065746833', start_date = '2021-01-01', end_date = '2022-12-31', api_key = mykey)
 
 }
