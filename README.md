@@ -14,7 +14,13 @@ The `openet` package for R makes your life easier in several ways:
 
 ## Compatibility with new API
 
-A new version of the OpenET API with expanded features was launched in the summer of 2023. All functions are now compatible with the new API, except for the multipolygon endpoint which will require additional work. Some API parameter names and values were changed, and this library reflects those changes, so check the help pages for the functions for the current list of acceptable values. `getOpenET_fields()` now accepts a vector containing multiple models and ET variables. The new API functionality will enable some new functions which will be rolled out in future versions of this library.
+A new version of the OpenET API with expanded features was launched in the summer of 2023. All functions are now compatible with the new API, except for the multipolygon endpoint which will require additional work. Some API parameter names and values were changed, and this library reflects those changes, so check the help pages for the functions for the current list of acceptable values. Some minor improvements were made to the existing functions:
+
+`getOpenET_fields()` now accepts a vector containing multiple models and ET variables. The new API functionality will enable some new functions which will be rolled out in future versions of this library.
+
+`getOpenET_quota()` provides a more detailed and descriptive breakdown of the new quota limits.
+
+Most API errors now give a descriptive message about the error.
 
 ## How to use it
 
