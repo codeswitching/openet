@@ -14,7 +14,7 @@ The `openet` package for R makes your life easier in several ways:
 
 ## Compatibility with new API
 
-A new version of the OpenET API with expanded features was launched in the summer of 2023. All functions are now compatible with the new API, except for the multipolygon endpoint which will require additional work. Some API parameter names and values were changed, and this library reflects those changes, so check the help pages for the functions for the current list of acceptable values. Some minor improvements were made to the existing functions:
+A [new version of the OpenET API](https://openetdata.org/api-info/) with expanded features was launched in October 2023. All functions are now compatible with the new API, except for the multipolygon endpoint which will require additional work. Some API parameter names and values were changed, and this library reflects those changes, so check the help pages for the functions for the current list of acceptable values. Some minor improvements were made to the existing functions:
 
 `getOpenET_fields()` now accepts a vector containing multiple models and ET variables. The new API functionality will enable some new functions which will be rolled out in future versions of this library.
 
@@ -50,7 +50,7 @@ Install the `devtools` package from CRAN, if not already installed, then run:
 
 All functions are fully documented with examples. To read the documentation, use e.g. `?getOpenET_fields`
 
-It is recommended to also read the [OpenET API documentation](https://open-et.github.io/docs/build/html/index.html) for the endpoints of interest. There is also a [Swagger testbed](https://openet.dri.edu/docs) for the API, which can be useful for confirming whether your parameters are specified correctly.
+It is recommended to also read the [OpenET API documentation](https://openet.gitbook.io/docs/) for the endpoints of interest. There is also a [testbed](https://openet-api.org/) for the API, which can be useful for confirming whether your parameters are specified correctly.
 
 See the vignette `openet-package-demo.Rmd` in this repository for examples of how to fetch and visualize ET data.
 

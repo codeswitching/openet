@@ -1,15 +1,8 @@
-#' Timeseries of monthly/daily ET for a custom polygon
+#' Timeseries of monthly/daily ET for multiple custom polygons
 #'
-#' Makes calls to the OpenET /raster/timeseries/polygon API endpoint. Use this function when you want
-#' to get data for a single user-defined polygon instead of using OpenET's built-in fields. Data is returned as an R data frame.
+#' Makes calls to the OpenET Raster/Timeseries/Multipolygon API endpoint.
 #'
-#' If you don't know the lat-long coordinates of your desired polygon, there is an easy way to find it. From the OpenET web app,
-#' click the orange Draw Custom Area button at lower right. Click one of the two polygon tools and draw the polygon on the map.
-#' Click Run Timeseries, then click Copy Shape to Clipboard at the top of the popup. Now you can create a numeric vector containing
-#' the pasted lat/long pairs, e.g. `geom <- c(-114.2, 33.5, -114.8, 33.7, -114.0, 33.0)`. Finally, pass the vector to the
-#' `geometry` parameter of the function.
-#'
-#' #' Note that all parameters except `geometry` are strings. Most parameters have default values and can therefore be omitted,
+#' #' Note that all parameters are strings. Most parameters have default values and can therefore be omitted,
 #' if the defaults are acceptable.
 #'
 #' OpenET API Documentation for this endpoint:
@@ -52,62 +45,56 @@
 #' @export
 
 
-getOpenET_polygon <- function (geometry, start_date = '2021-01-01', end_date = as.character(Sys.Date()),
+getOpenET_multipolygon <- function (start_date = '2021-01-01', end_date = as.character(Sys.Date()),
                                model = 'ensemble', variable = 'et', units = 'in', reference_et = 'cimis',
-                               interval = 'daily', reducer = 'mean', api_key = '')
-
+                               interval = 'monthly', reducer = 'mean', asset_id, attributes, api_key = '')
+  
 {
   httr::set_config(httr::config(ssl_verifypeer=0L))         # turn off ssl_verify (for use behind firewall)
-
-  url <- 'https://openet-api.org/raster/timeseries/polygon' # URL for the API's timeseries/features/monthly endpoint
-
+  
+  url <- 'https://openet-api.org/raster/timeseries/multipolygon' # URL for the API's timeseries/features/monthly endpoint
+  
   date_range <- c(start_date, end_date)
-
+  
   response <- httr::POST(url,
                          httr::add_headers(accept = 'application/json',         # type of response to accept
                                            Authorization = api_key,             # API key
                                            content_type = 'application/json'),  # tells server how the body data is formatted
                          encode = 'json',                                       # tells POST how to encode the body list
-                         body = list(geometry      = geometry,
-                                     model         = model,
+                         body = list(model         = model,
                                      variable      = variable,
-                                     date_range    = date_range,
+                                     date_range    = as.list(date_range),
                                      units         = units,
-                                     file_format   = 'csv',
                                      reducer       = reducer,
                                      reference_et  = reference_et,
+                                     asset_id      = asset_id,
+                                     attributes    = as.list(attributes),
                                      interval      = interval))
-
+  
   if (httr::http_error(response)) {                 # If the server returned an error...
     cat('The API server returned the following error:\n')
     cat(httr::http_status(response)$message, '\n')    # print the server's error message
     cat(httr::content(response)$detail, '\n')         # print the server's detailed error message
     helpful_error <- dplyr::case_when(
       response$status_code == 401 ~ 'API key may be invalid, expired, or over quota',
-      response$status_code == 403 ~ 'API key may be invalid or over quota',
+      response$status_code == 403 ~ 'API key may be missing, expired, invalid or over quota',
       response$status_code == 404 ~ 'Data may not be available for this date range [yet]',
       response$status_code == 406 ~ 'Please try again with a shorter date range',
       response$status_code == 422 ~ 'Malformed parameter data - check your parameter data types and formatting'
     )
-    cat(helpful_error, '\n')                         # print a more helpful error message
-    return(NULL)
-    }                                                # return a null data frame
-  else {                                          # Else if successful...
+    cat(helpful_error, '\n')                          # print a more helpful error message
+    return(NULL)                                      # and return a null data frame
+  }                                                
+  else {                                            # Else if successful...
     cat('Server reports', httr::http_status(response)$message, '\n')  # print a success message
-    response_data <- httr::content(response)         # extract the returned data as a data frame
-    etdata <- tryCatch ({                            # test whether the data frame contains meaningful data
-      dplyr::rename(response_data, date = time)      # if it does,
+    response_data <- httr::content(response)           # extract the returned data as a data frame
+    etdata <- tryCatch ({                              # test whether the data frame contains meaningful data
+       response_url <- response_data$url
     }, error = function(e) {                         # if unpacking returns an error
       cat('Malformed parameter data - check that your parameters are specified correctly\n')
       return(NULL)
     })
   }
-
-  etdata <- dplyr::mutate(etdata, year   = lubridate::year(date),   # extract year from date and add year column
-                                  month  = lubridate::month(date),  # extract month from date and add month column
-                                  julian = lubridate::yday(date),   # add julian day of year column
-                                  units  = ifelse(units == 'in', 'inches', 'mm'),  # add the ET units
-                                  model  = model)                   # add the name of the ET model
-
-  return(etdata)
+  
+ return(response_url)
 }

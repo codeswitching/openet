@@ -39,7 +39,7 @@
 #'
 #' <et>          Total monthly ET (sum of all daily values) in either inches or mm, depending on chosen units
 #'
-#' <units>       'inches' or 'mm'
+#' <units>       'in' or 'mm'
 #'
 #' @examples getOpenET_fields(field_ids = c('06323746', '06435895'), '2020-01-01', '2021-12-31', 'ensemble', 'et', 'metric', mykey)
 #' @examples getOpenET_fields(field_ids = '065746833', start_date = '2021-01-01', end_date = '2022-12-31', api_key = mykey)
@@ -47,7 +47,7 @@
 #' @export
 
 getOpenET_fields <- function (field_ids = '06323746', start_date = paste0(year(Sys.Date()), '-01-01'), end_date = as.character(Sys.Date()-14),
-                              model = 'ensemble', variable = 'et', interval = 'monthly', api_key = '')
+                              model = 'ensemble', variable = 'et', interval = 'monthly', units = 'in', api_key = '')
 {
   httr::set_config(httr::config(ssl_verifypeer=0L))  # turn off ssl_verify (for use behind firewall)
 
@@ -65,20 +65,20 @@ getOpenET_fields <- function (field_ids = '06323746', start_date = paste0(year(S
                                      interval      = interval,
                                      file_format   = 'csv'))
 
-  if (httr::http_error(response)) {                 # If the server returned an error...
+  if (httr::http_error(response)) {                # If the server returned an error...
     cat('The API server returned an error:\n')
     cat(httr::http_status(response)$message, '\n')      # print the server's error message
     cat(httr::content(response)$detail[[1]]$msg, '\n')  # print the server's detailed error message
     helpful_error <- dplyr::case_when(
       response$status_code == 401 ~ 'API key may be invalid, expired, or over quota',
-      response$status_code == 403 ~ 'API key may be invalid or over quota',
+      response$status_code == 403 ~ 'API key may be missing, invalid or over quota',
       response$status_code == 404 ~ 'Data may not be available for this date range [yet]',
       response$status_code == 422 ~ 'Malformed parameter data - check your parameter types and formatting'
     )
     cat(helpful_error, '\n')                          # print a more helpful error message
-    return(NULL)                                      # return a null data frame
+    return(NULL)                                      # and return a null data frame
     }
-  else {                                          # Else if successful...
+  else {                                           # Else if successful...
     cat('Server reports', httr::http_status(response)$message, '\n')        # print a success message
     response_data <- httr::content(response)          # extract the response data as a data frame
 
