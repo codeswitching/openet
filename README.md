@@ -3,7 +3,7 @@
 
 ![OpenET screenshot](OpenET_screenshot.PNG?raw=true "OpenET screenshot")
 
-[OpenET](openetdata.org) is a web platform that uses the best available science to offer easily-available satellite-based estimates of evapotranspiration (ET) for the entire western U.S. In addition to a convenient web map interface, OpenET also offers an API for routine queries.
+[OpenET](http://openetdata.org) is a web platform that uses the best available science to offer satellite-based estimates of evapotranspiration (ET) for the entire western U.S. In addition to a convenient web map interface, OpenET also offers an API for routine queries.
 
 The `openet` package for R makes your life easier in several ways:
 
