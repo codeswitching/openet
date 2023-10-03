@@ -62,7 +62,7 @@ Note that nearly all parameter values, including 'true' and 'false', must be pas
 
 ## API Keys
 
-An OpenET API key is required to use this package and must be passed to all functions. Obtain one at https://auth.etdata.org
+An OpenET API key is required to use this package and must be passed to all functions. Obtain one at https://account.etdata.org/
 
 API keys are renewed from time to time and it can be inconvenient to have the keys baked into your R scripts. An alternative is to store the key in a .txt file somewhere on your computer and then read it in at the start of your script:
 
@@ -72,7 +72,7 @@ Then you only need to keep the key current in one text file.
 
 ## API Errors
 
-HTTP error codes are not well-documented in the API documentation. However, the package will return friendly error messages for many common issues.
+All functions return friendly error messages for many common issues.
 
 ## Why are functions not provided for the other timeseries endpoints?
 
