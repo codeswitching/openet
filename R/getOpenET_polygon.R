@@ -20,7 +20,7 @@
 #'
 #' https://openet-api.org/#/Retrieve%20Raster%20Data/_raster_timeseries_polygon_post
 #'
-#' @param geometry A numeric vector containing lat-long pairs for a single polygon. e.g. `c(-114.2, 33.5, -114.8, 33.7, -114.0, 33.0)`
+#' @param geometry A numeric vector containing longitude-latitude pairs for a single polygon. e.g. `c(-114.2, 33.5, -114.8, 33.7, -114.0, 33.0)`
 #' @param start_date The start date as a string in 'yyyy-mm-dd' format.
 #' @param end_date The end date as a string in 'yyyy-mm-dd' format. Defaults to today's date.
 #' @param model The ET model: 'ensemble', 'eemetric', 'ssebop', 'geesebal', 'sims', 'disalexi', 'ptjpl'. Defaults to 'ensemble'.
@@ -82,6 +82,7 @@ getOpenET_polygon <- function (geometry, start_date = '2021-01-01', end_date = a
     cat('The API server returned the following error:\n')
     cat(httr::http_status(response)$message, '\n')    # print the server's error message
     cat(httr::content(response)$detail, '\n')         # print the server's detailed error message
+    cat(httr::content(response)[[1]][[1]]$msg, '\n')    # print the server's detailed error message
     helpful_error <- dplyr::case_when(
       response$status_code == 401 ~ 'API key may be invalid, expired, or over quota',
       response$status_code == 403 ~ 'API key may be invalid or over quota',

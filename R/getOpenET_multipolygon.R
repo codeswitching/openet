@@ -1,8 +1,8 @@
 #' Timeseries of monthly/daily ET for multiple custom polygons
 #'
-#' Makes calls to the OpenET Raster/Timeseries/Multipolygon API endpoint.
+#' Makes calls to the OpenET Raster/Timeseries/Multipolygon API endpoint. Polygons must be uploaded to Google Earth Engine and shared with `openet@googlegroups.com`
 #'
-#' #' Note that all parameters are strings. Most parameters have default values and can therefore be omitted,
+#' Note that all parameters are strings. Most parameters have default values and can therefore be omitted,
 #' if the defaults are acceptable.
 #'
 #' OpenET API Documentation for this endpoint:
@@ -19,26 +19,14 @@
 #' @param model The ET model: 'ensemble', 'eemetric', 'ssebop', 'geesebal', 'sims', 'disalexi', 'ptjpl'. Defaults to 'ensemble'.
 #' @param variable Variable to fetch: 'et', 'et_mad_min', 'et_mad_max', 'eto', 'etr', 'etof', 'ndvi'. Defaults to 'et'.
 #' @param units Units for ET; 'mm' or 'in' (inches). Defaults to 'in'.
+#' @param asset_id Asset ID for the Google Earth Engine shapefile asset.
+#' @param attributes Names of shapefile attributes to include in the response csv file, as a vector of strings.
 #' @param reference_et Reference ET source, either 'cimis' (CA only) or 'gridmet' (all states). Defaults to 'cimis'.
 #' @param interval Time interval: 'daily' or 'monthly'. Defaults to 'daily'.
 #' @param reducer Pixel aggregation method for the polygon: 'mean', 'median', 'min', 'max', or 'sum'. Defaults to 'mean'.
 #' @param api_key Your personal OpenET API token as a string.
 #'
-#' @returns Returns a data frame with one row per time interval and 3 columns:
-#'
-#' <date>    Date, in 'yyyy-mm-dd' format
-#'
-#' <year>    Numeric year, extracted from <date>
-#'
-#' <month>   Numeric month, extracted from <date>
-#'
-#' <julian>  Numeric julian day of year, extracted from <date>
-#'
-#' <et>      Daily or monthly ET, depending on chosen interval, in either inches or mm, depending on chosen units
-#'
-#' <model>   Name of the ET model
-#'
-#' <units>   'inches' or 'mm'
+#' @returns Returns a url where the data can be downloaded. If the url is stored as a variable, data can then be read in using `read_csv(file = url)`
 #'
 #' @examples getOpenET_polygon(geometry = c(-114.2, 33.5, -114.8, 33.7, -114.0, 33.0), start_date = '2020-01-01', end_date = '2021-12-31', model = 'ensemble', units = 'mm', interval = 'daily', api_key = mykey)
 #'
@@ -48,14 +36,14 @@
 getOpenET_multipolygon <- function (start_date = '2021-01-01', end_date = as.character(Sys.Date()),
                                model = 'ensemble', variable = 'et', units = 'in', reference_et = 'cimis',
                                interval = 'monthly', reducer = 'mean', asset_id, attributes, api_key = '')
-  
+
 {
   httr::set_config(httr::config(ssl_verifypeer=0L))         # turn off ssl_verify (for use behind firewall)
-  
+
   url <- 'https://openet-api.org/raster/timeseries/multipolygon' # URL for the API's timeseries/features/monthly endpoint
-  
+
   date_range <- c(start_date, end_date)
-  
+
   response <- httr::POST(url,
                          httr::add_headers(accept = 'application/json',         # type of response to accept
                                            Authorization = api_key,             # API key
@@ -70,7 +58,7 @@ getOpenET_multipolygon <- function (start_date = '2021-01-01', end_date = as.cha
                                      asset_id      = asset_id,
                                      attributes    = as.list(attributes),
                                      interval      = interval))
-  
+
   if (httr::http_error(response)) {                 # If the server returned an error...
     cat('The API server returned the following error:\n')
     cat(httr::http_status(response)$message, '\n')    # print the server's error message
@@ -79,12 +67,11 @@ getOpenET_multipolygon <- function (start_date = '2021-01-01', end_date = as.cha
       response$status_code == 401 ~ 'API key may be invalid, expired, or over quota',
       response$status_code == 403 ~ 'API key may be missing, expired, invalid or over quota',
       response$status_code == 404 ~ 'Data may not be available for this date range [yet]',
-      response$status_code == 406 ~ 'Please try again with a shorter date range',
       response$status_code == 422 ~ 'Malformed parameter data - check your parameter data types and formatting'
     )
     cat(helpful_error, '\n')                          # print a more helpful error message
     return(NULL)                                      # and return a null data frame
-  }                                                
+  }
   else {                                            # Else if successful...
     cat('Server reports', httr::http_status(response)$message, '\n')  # print a success message
     response_data <- httr::content(response)           # extract the returned data as a data frame
@@ -95,6 +82,6 @@ getOpenET_multipolygon <- function (start_date = '2021-01-01', end_date = as.cha
       return(NULL)
     })
   }
-  
+
  return(response_url)
 }
