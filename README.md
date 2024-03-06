@@ -3,7 +3,7 @@
 
 ![OpenET screenshot](OpenET_screenshot.PNG?raw=true "OpenET screenshot")
 
-[OpenET](http://openetdata.org) is a web platform that uses the best available science to offer satellite-based estimates of evapotranspiration (ET) for the entire western U.S. In addition to a convenient web map interface, OpenET also offers an API for routine queries.
+[OpenET](http://openetdata.org) is a web platform that uses the best available science to offer satellite-based estimates of evapotranspiration (ET) for the entire western U.S. In addition to a convenient web map interface, OpenET also offers an API for customized queries.
 
 The `openet` package for R makes your life easier in several ways:
 
@@ -14,9 +14,9 @@ The `openet` package for R makes your life easier in several ways:
 
 ## Compatibility with new API
 
-A [new version of the OpenET API](https://openetdata.org/api-info/) with expanded features was launched in October 2023. All functions are now compatible with the new API, except for the multipolygon endpoint which will require additional work. Some API parameter names and values were changed, and this library reflects those changes, so check the help pages for the functions for the current list of acceptable values. Some minor improvements were made to the existing functions:
+A [new version of the OpenET API](https://openetdata.org/api-info/) with expanded features was launched in October 2023. All functions in this library are now compatible with the new API, except for the multipolygon endpoint which will require additional work. Some API parameter names and values were changed, and this library reflects those changes, so check the help pages for the functions for the current list of acceptable values. Some minor improvements were made to the existing functions:
 
-`getOpenET_fields()` now accepts a vector containing multiple models and ET variables. The new API functionality will enable some new functions which will be rolled out in future versions of this library.
+`getOpenET_fields()` now accepts a vector containing multiple models and ET variables.
 
 `getOpenET_quota()` provides a more detailed and descriptive breakdown of the new quota limits.
 
@@ -34,9 +34,9 @@ OpenET's built-in fields are the most convenient to use because you only need to
 
 If your area can be contained within a single polygon, the `getOpenET_polygon()` function is the next best option. It is easy to copy-paste the coordinates of a user-defined polygon into R using the Draw Custom Area feature of the OpenET web app.
 
-The most powerful but least convenient option is `getOpenET_multipolygon()`, in which you can upload your own custom shapefiles containing multiple polygons. However, you must first create a Google Earth Engine account, upload a shapefile to GEE, share the shapefile with OpenET's API, and then pass the shapefile's asset ID to the function. Still, with a bit of effort this is not too difficult by following the [instructions](https://open-et.github.io/docs/build/html/ras_timeseries.html#raster-timeseries-multipolygon) on the API documentation for the raster/multipolygon endpoint. Because this data can be quite large, the function does not return the data directly as a data frame like the other two. It instead returns a url that can be used to download a .csv file, either through your browser or within R.
+The most powerful but least convenient option is `getOpenET_multipolygon()`, in which you can upload your own custom shapefiles containing multiple polygons. However, you must first have a Google Earth Engine account, upload a shapefile to GEE, share the shapefile with OpenET's API, and then pass the shapefile's asset ID to the function. Still, with a bit of effort this is not too difficult by following the [instructions](https://openet.gitbook.io/docs/reference/api-reference/raster#timeseries-multipolygon) on the API documentation for the raster/multipolygon endpoint. Because this data can be quite large, the function does not return the data directly as a data frame like the other two. It instead returns a url that can be used to download a .csv file, either through your browser or within R.
 
-Finally, there is a `getOpenET_quota()` function which will provide the expiration date and quota limits for your API key. This is useful for testing that your key is valid and working.
+Finally, there is a `getOpenET_quota()` function which will provide the expiration date and quota limits for your API key. This is also useful for testing that your key is valid and working.
 
 ## How to install
 
@@ -72,7 +72,7 @@ Then you only need to keep the key current in one text file.
 
 ## API Errors
 
-All functions return friendly error messages for many common issues.
+All functions return friendly error messages for most (though not all) common issues.
 
 ## Why are functions not provided for the other timeseries endpoints?
 
@@ -90,7 +90,7 @@ httr, dplyr, tidyr, lubridate
 
 Authored and maintained by Lauren Steely *(lsteely at mwdh2o.com)*
 
-*I am not affiliated with the OpenET technical team, please refer to the API documentation for feedback or questions about the API.*
+*I am not affiliated with the OpenET technical team, please refer to the API documentation for feedback or questions about the API or OpenET itself.*
 
 Jan 2023
 
