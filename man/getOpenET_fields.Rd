@@ -6,11 +6,12 @@
 \usage{
 getOpenET_fields(
   field_ids = "06323746",
-  start_date = paste0(year(Sys.Date()), "-01-01"),
+  start_date = paste0(lubridate::year(Sys.Date()), "-01-01"),
   end_date = as.character(Sys.Date() - 14),
   model = "ensemble",
   variable = "et",
   interval = "monthly",
+  units = "in",
   api_key = ""
 )
 }
@@ -27,26 +28,24 @@ getOpenET_fields(
 
 \item{interval}{Time interval: 'daily' or 'monthly'. Defaults to 'monthly'.}
 
-\item{api_key}{Your personal OpenET API token as a string.}
-
 \item{units}{Units for ET; 'mm' or 'in' (inches). Defaults to 'in'.}
+
+\item{api_key}{Your personal OpenET API token as a string.}
 }
 \value{
-Returns a data frame with (months) x (fields) rows and 5 columns:
+Returns a data frame with (months) x (fields) rows and 6 columns:
 
-<start_date>  Start date of the month, in 'yyyy-mm-dd' format
+<date>        Date, in 'yyyy-mm-dd' format
 
-<end_date>    End date of the month
+<month>       Numeric month, extracted from <date>
 
-<month>       Numeric month, extracted from <start_date>
-
-<year>        Numeric year, extracted from <start_date>
+<year>        Numeric year, extracted from <date>
 
 <field>       OpenET field id
 
 <et>          Total monthly ET (sum of all daily values) in either inches or mm, depending on chosen units
 
-<units>       'inches' or 'mm'
+<units>       'in' or 'mm'
 }
 \description{
 Makes calls to the OpenET /timeseries/features/monthly API endpoint. Use this function when you

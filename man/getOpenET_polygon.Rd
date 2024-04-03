@@ -18,7 +18,7 @@ getOpenET_polygon(
 )
 }
 \arguments{
-\item{geometry}{A numeric vector containing lat-long pairs for a single polygon. e.g. `c(-114.2, 33.5, -114.8, 33.7, -114.0, 33.0)`}
+\item{geometry}{A numeric vector containing longitude-latitude pairs for a single polygon. e.g. `c(-114.2, 33.5, -114.8, 33.7, -114.0, 33.0)`}
 
 \item{start_date}{The start date as a string in 'yyyy-mm-dd' format.}
 
@@ -66,7 +66,7 @@ Click Run Timeseries, then click Copy Shape to Clipboard at the top of the popup
 the pasted lat/long pairs, e.g. `geom <- c(-114.2, 33.5, -114.8, 33.7, -114.0, 33.0)`. Finally, pass the vector to the
 `geometry` parameter of the function.
 
-#' Note that all parameters except `gometry` are strings. Most parameters have default values and can therefore be omitted,
+#' Note that all parameters except `geometry` are strings. Most parameters have default values and can therefore be omitted,
 if the defaults are acceptable.
 
 OpenET API Documentation for this endpoint:

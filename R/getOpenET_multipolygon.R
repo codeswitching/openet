@@ -7,13 +7,12 @@
 #'
 #' OpenET API Documentation for this endpoint:
 #'
-#' https://openet.gitbook.io/docs/reference/api-reference/raster#timeseries-polygon
+#' https://openet.gitbook.io/docs/reference/api-reference/raster#timeseries-multipolygon
 #'
 #' OpenET API Testbed:
 #'
-#' https://openet-api.org/#/Retrieve%20Raster%20Data/_raster_timeseries_polygon_post
+#' https://openet-api.org/#/Retrieve%20Raster%20Data/_raster_timeseries_multipolygon_post
 #'
-#' @param geometry A numeric vector containing lat-long pairs for a single polygon. e.g. `c(-114.2, 33.5, -114.8, 33.7, -114.0, 33.0)`
 #' @param start_date The start date as a string in 'yyyy-mm-dd' format.
 #' @param end_date The end date as a string in 'yyyy-mm-dd' format. Defaults to today's date.
 #' @param model The ET model: 'ensemble', 'eemetric', 'ssebop', 'geesebal', 'sims', 'disalexi', 'ptjpl'. Defaults to 'ensemble'.
@@ -24,18 +23,20 @@
 #' @param reference_et Reference ET source, either 'cimis' (CA only) or 'gridmet' (all states). Defaults to 'cimis'.
 #' @param interval Time interval: 'daily' or 'monthly'. Defaults to 'daily'.
 #' @param reducer Pixel aggregation method for the polygon: 'mean', 'median', 'min', 'max', or 'sum'. Defaults to 'mean'.
+#' @param overpass Return only data from the satellite overpass days?: 'true' or 'false'. Defaults to 'false'.
 #' @param api_key Your personal OpenET API token as a string.
 #'
-#' @returns Returns a url where the data can be downloaded. If the url is stored as a variable, data can then be read in using `read_csv(file = url)`
+#' @returns Returns a url where the datafile can be downloaded. It may take a few minutes before the file is ready for download. If the url is stored as an R variable, data can then be read in using `read_csv(file = url)`
 #'
-#' @examples getOpenET_polygon(geometry = c(-114.2, 33.5, -114.8, 33.7, -114.0, 33.0), start_date = '2020-01-01', end_date = '2021-12-31', model = 'ensemble', units = 'mm', interval = 'daily', api_key = mykey)
+#' @examples getOpenET_multipolygon(start_date = '2020-01-01', end_date = '2021-12-31', model = 'ensemble', units = 'mm', interval = 'monthly', variable = 'eto', reference_et = 'gridmet', asset_id = 'projects/myname/assets/my_shapefile', api_key = mykey)
 #'
 #' @export
 
 
 getOpenET_multipolygon <- function (start_date = '2021-01-01', end_date = as.character(Sys.Date()),
-                               model = 'ensemble', variable = 'et', units = 'in', reference_et = 'cimis',
-                               interval = 'monthly', reducer = 'mean', asset_id, attributes, api_key = '')
+                                    model = 'ensemble', variable = 'et', units = 'in', reference_et = 'cimis',
+                                    interval = 'monthly', overpass = 'false', reducer = 'mean', asset_id,
+                                    attributes = '', api_key)
 
 {
   httr::set_config(httr::config(ssl_verifypeer=0L))         # turn off ssl_verify (for use behind firewall)
