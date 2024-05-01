@@ -34,13 +34,13 @@ getOpenET_multipolygon(
 
 \item{interval}{Time interval: 'daily' or 'monthly'. Defaults to 'daily'.}
 
-\item{overpass}{Return only data from the satellite overpass days?: 'true' or 'false'. Defaults to 'false'.}
+\item{overpass}{Return only data from the satellite overpass days?: 'true' or 'false' as a string. Defaults to 'false'.}
 
 \item{reducer}{Pixel aggregation method for the polygon: 'mean', 'median', 'min', 'max', or 'sum'. Defaults to 'mean'.}
 
-\item{asset_id}{Asset ID for the Google Earth Engine shapefile asset.}
+\item{asset_id}{Asset ID for the Google Earth Engine shapefile asset. e.g. 'projects/user/assets/my_shapefile'}
 
-\item{attributes}{Names of shapefile attributes to include in the response csv file, as a vector of strings.}
+\item{attributes}{Names of shapefile attributes to include in the response csv file, as an R vector of strings.}
 
 \item{api_key}{Your personal OpenET API token as a string.}
 }
