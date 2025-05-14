@@ -58,7 +58,7 @@ getOpenET_fields <- function (field_ids = '06323746', start_date = paste0(lubrid
                          encode = 'json',                                       # tells POST how to encode the body list
                          body = list(field_ids     = as.list(field_ids),
                                      models        = as.list(model),
-                                     variables     = as.list(variable),
+                                     variable      = as.list(variable),
                                      date_range    = list(start_date, end_date),
                                      interval      = interval,
                                      file_format   = 'csv'))
@@ -98,8 +98,8 @@ getOpenET_fields <- function (field_ids = '06323746', start_date = paste0(lubrid
     }
 
   # Extract date variables for month and year
-  etdata <- dplyr::mutate(etdata, month = lubridate::month(start_date),
-                                  year  = lubridate::year(start_date))
+  etdata <- dplyr::mutate(etdata, month = lubridate::month(date),
+                                  year  = lubridate::year(date))
 
   return(etdata)  # return the data frame
 }

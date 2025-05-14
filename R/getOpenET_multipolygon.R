@@ -51,7 +51,7 @@ getOpenET_multipolygon <- function (start_date = '2021-01-01', end_date = as.cha
                                            content_type = 'application/json'),  # tells server how the body data is formatted
                          encode = 'json',                                       # tells POST how to encode the body list
                          body = list(model         = model,
-                                     variable      = variable,
+                                     variable      = as.list(variable),
                                      date_range    = as.list(date_range),
                                      units         = units,
                                      reducer       = reducer,
