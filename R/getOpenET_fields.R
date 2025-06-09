@@ -58,7 +58,7 @@ getOpenET_fields <- function (field_ids = '06323746', start_date = paste0(lubrid
                          encode = 'json',                                       # tells POST how to encode the body list
                          body = list(field_ids     = as.list(field_ids),
                                      models        = as.list(model),
-                                     variable      = as.list(variable),
+                                     variables     = as.list(variable),
                                      date_range    = list(start_date, end_date),
                                      interval      = interval,
                                      file_format   = 'csv'))
