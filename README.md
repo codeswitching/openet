@@ -1,5 +1,4 @@
-# openet
-## An R package for accessing the OpenET API
+# **openet**: an R package for accessing the OpenET API
 by **Lauren Steely**
 
 ![OpenET screenshot](OpenET_screenshot.PNG?raw=true "OpenET screenshot")
@@ -79,6 +78,8 @@ June 2025
 ## Example calls
 
 ```r
+library(openet)
+
 ### Check quota usage
 
 getOpenET_quota(my_api_key)
