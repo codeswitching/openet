@@ -1,5 +1,6 @@
 # openet
 ## An R package for accessing the OpenET API
+by **Lauren Steely**
 
 ![OpenET screenshot](OpenET_screenshot.PNG?raw=true "OpenET screenshot")
 
@@ -9,6 +10,7 @@ The `openet` package for R makes your life easier in several ways:
 
 - allows you to automate routine calls to the OpenET API and use the data in markdown reports, dashboards, and reproducible analyses
 - returns ET data as an analysis-ready, tidy-formatted R data frame
+- provides cleaned dates and extracted month and year variables
 - lets you easily tweak query parameters like units, time intervals, and reference ET source
 - provides meaningful server error messages to troubleshoot API issues
 
@@ -88,7 +90,7 @@ et <- getOpenET_fields(
   start_date = '2024-01-01',
   end_date   = '2024-12-31',
   model      = 'ensemble',
-  api_key    = api_key
+  api_key    = my_api_key
 )
 
 ### Get daily ET data for a user-defined polygon defined by lat-long coordinates
@@ -102,7 +104,8 @@ et <- getOpenET_polygon(
   interval     = 'daily',
   model        = 'ssebop',
   reference_et = 'cimis',
-  api_key      = my_api_key)
+  api_key      = my_api_key
+)
 
 ### Get daily ET data for multiple polygons from a shapefile uploaded to Google Earth Engine
 
