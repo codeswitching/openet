@@ -80,13 +80,13 @@ June 2025
 ```r
 library(openet)
 
-### Check quota usage
+### Check quota usage --------------------------------------------------------------------------
 
 getOpenET_quota(my_api_key)
 
-### Get monthly ET data for 3 built-in fields for 2024
+### Get monthly ET data for 3 built-in fields for 2024 -----------------------------------------
 
-et <- getOpenET_fields(
+etdata <- getOpenET_fields(
   field_ids  = c('01234567', '01234568', '01234569'),
   start_date = '2024-01-01',
   end_date   = '2024-12-31',
@@ -94,11 +94,11 @@ et <- getOpenET_fields(
   api_key    = my_api_key
 )
 
-### Get daily ET data for a user-defined polygon defined by lat-long coordinates
+### Get daily ET data for a user-defined polygon defined by lat-long coordinates ---------------
 
 mygeom <- c(-114.73948359489442,33.481782352519936,-114.73576068878174,33.4817734040128,-114.73561048507692,33.47834605781004,-114.73939776420595,33.47833710894796)
 
-et <- getOpenET_polygon(
+etdata <- getOpenET_polygon(
   geometry     = mygeom,
   start_date   = '2023-01-01',
   end_date     = '2023-12-31',
@@ -108,7 +108,7 @@ et <- getOpenET_polygon(
   api_key      = my_api_key
 )
 
-### Get daily ET data for multiple polygons from a shapefile uploaded to Google Earth Engine
+### Get daily ETo data for multiple polygons from a shapefile uploaded to Google Earth Engine --
 
 my_shapefile  <- 'projects/assets/farm_fields' # asset id of shapefile in GEE
 my_attributes <- c('acres', 'owner')           # shapefile attributes to include in returned data
@@ -118,7 +118,7 @@ url <- getOpenET_multipolygon(
   end_date   = '2023-12-31',
   model      = 'eemetric',
   interval   = 'daily',
-  variable   = 'et',
+  variable   = 'eto',
   asset_id   = my_shapefile,
   attributes = my_attributes,
   api_key    = my_api_key,
