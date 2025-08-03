@@ -32,7 +32,7 @@
 #'
 #' @export
 
-
+# comment
 getOpenET_multipolygon <- function (start_date = '2021-01-01', end_date = as.character(Sys.Date()),
                                     model = 'ensemble', variable = 'et', units = 'in', reference_et = 'cimis',
                                     interval = 'monthly', overpass = 'false', reducer = 'mean', asset_id,
