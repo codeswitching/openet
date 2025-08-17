@@ -37,7 +37,7 @@
 #'
 #' <et>          Total monthly ET (sum of all daily values) in either inches or mm, depending on chosen units
 #'
-#' <units>       'in' or 'mm'
+#' <units>       'in' or 'mm'; defaults to 'in'
 #'
 #' @examples getOpenET_fields(field_ids = c('06323746', '06435895'), '2020-01-01', '2021-12-31', 'ensemble', 'et', 'metric', mykey)
 #' @examples getOpenET_fields(field_ids = '065746833', start_date = '2021-01-01', end_date = '2022-12-31', api_key = mykey)
