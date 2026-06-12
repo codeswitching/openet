@@ -5,68 +5,81 @@
 \title{Timeseries of monthly ET for one or more OpenET fields}
 \usage{
 getOpenET_fields(
-  field_ids = "06323746",
-  start_date = paste0(lubridate::year(Sys.Date()), "-01-01"),
+  field_ids,
+  start_date = format(Sys.Date(), "\%Y-01-01"),
   end_date = as.character(Sys.Date() - 14),
-  model = "ensemble",
-  variable = "et",
-  interval = "monthly",
+  models = "ensemble",
+  variables = "et",
   units = "in",
   api_key = ""
 )
 }
 \arguments{
-\item{field_ids}{One or more OpenET field ids, as a string or vector of strings. To determine the field id, click on a field within the OpenET web explorer. Id is shown in the popup title.}
+\item{field_ids}{One or more 11-digit OpenET field IDs, as a character vector. Example: `c('21106155983', '21106158103')`.}
 
-\item{start_date}{The start date as a string in 'yyyy-mm-dd' format. Defaults to start of current year.}
+\item{start_date}{Start date as a string in `'yyyy-mm-dd'` format. Defaults to start of current year.}
 
-\item{end_date}{The end date as a string in 'yyyy-mm-dd' format. Defaults to two weeks ago.}
+\item{end_date}{End date as a string in `'yyyy-mm-dd'` format. Defaults to two weeks ago.}
 
-\item{model}{A vector of one of more ET models to use: 'ensemble', 'eemetric', 'ssebop', 'geesebal', 'sims', 'disalexi', 'ptjpl'. Defaults to 'ensemble'.}
+\item{models}{Character vector of one or more ET models: `'ensemble'`, `'eemetric'`, `'ssebop'`,
+`'geesebal'`, `'sims'`, `'disalexi'`, `'ptjpl'`. Defaults to `'ensemble'`.}
 
-\item{variable}{A vector of one or more variables to fetch: 'et', 'et_mad_min', 'et_mad_max', 'eto', 'etr', 'etof', 'ndvi', 'pr'. Defaults to 'et'.}
+\item{variables}{Character vector of one or more variables: `'et'`, `'eto'`, `'etof'`,
+`'et_mad_max'`, `'et_mad_min'`, `'ndvi'`, `'pr'`. Defaults to `'et'`.}
 
-\item{interval}{Time interval: 'daily' or 'monthly'. Defaults to 'monthly'.}
+\item{units}{Units for ET output: `'mm'` or `'in'` (inches). Geodatabase data is natively in mm;
+if `'in'` is requested, ET variables are converted client-side. Defaults to `'in'`.}
 
-\item{units}{Units for ET; 'mm' or 'in' (inches). Defaults to 'in'.}
-
-\item{api_key}{Your personal OpenET API token as a string.}
+\item{api_key}{Your OpenET API key as a string.}
 }
 \value{
-Returns a data frame with (months) x (fields) rows and 6 columns:
-
-<date>        Date, in 'yyyy-mm-dd' format
-
-<month>       Numeric month, extracted from <date>
-
-<year>        Numeric year, extracted from <date>
-
-<field>       OpenET field id
-
-<et>          Total monthly ET (sum of all daily values) in either inches or mm, depending on chosen units
-
-<units>       'in' or 'mm'
+A data frame with columns depending on the requested variables and models. Always includes:
+\describe{
+  \item{date}{Date, in `yyyy-mm-dd` format}
+  \item{month}{Numeric month, extracted from date}
+  \item{year}{Numeric year, extracted from date}
+  \item{field_id}{OpenET field ID}
+  \item{collection}{Model and variable combination (e.g. `'ensemble_et'`)}
+  \item{value}{Numeric value in the requested units}
+  \item{units}{`'mm'` or `'in'`}
+}
+Returns an empty data frame with a warning if no data is returned or an error occurs.
 }
 \description{
-Makes calls to the OpenET /timeseries/features/monthly API endpoint. Use this function when you
-want to use OpenET's built-in field boundaries, and you know the field id's of the specific field(s). The field id's
-can be found by clicking on fields in the OpenET web app and looking at the top of the resulting popup. Data is
-returned as an R data frame.
+Makes calls to the OpenET `/geodatabase/timeseries` API endpoint (v3). Use this function when you
+want to use OpenET's built-in field boundaries and you know the field IDs of the specific field(s).
+Field IDs can be found by clicking on fields in the OpenET web app (popup title) or by querying
+the `/geodatabase/metadata/ids` endpoint. Data is returned as an R data frame.
 }
 \details{
-Note that all parameters are strings, esp. field id's which may have leading zeroes. Most parameters have default values
-and can therefore be omitted if the defaults are acceptable.
+Only monthly data is available from this endpoint.
 
-OpenET API Documentation:
+As of December 2025, field IDs are 11-digit numerical codes. Old FIPS-prefix field IDs are
+obsolete.
 
-https://open-et.github.io/docs/build/html/geo_timeseries.html#timeseries-features-monthly
-
-OpenET API Testbed:
-
-https://openet.dri.edu/docs#/timeseries/feature_timeseries_annual_timeseries_features_monthly_post
+Extractions will only include data within one US State at a time; however, multi-model and
+multi-variable queries are supported.
 }
 \examples{
-getOpenET_fields(field_ids = c('06323746', '06435895'), '2020-01-01', '2021-12-31', 'ensemble', 'et', 'metric', mykey)
-getOpenET_fields(field_ids = '065746833', start_date = '2021-01-01', end_date = '2022-12-31', api_key = mykey)
+\dontrun{
+# Single field, default parameters
+getOpenET_fields(
+  field_ids = "21106155983",
+  start_date = "2025-01-01",
+  end_date = "2025-12-31",
+  api_key = my_key
+)
+
+# Multiple fields, multiple models
+getOpenET_fields(
+  field_ids = c("21106155983", "21106158103"),
+  start_date = "2024-01-01",
+  end_date = "2025-12-31",
+  models = c("ensemble", "ssebop"),
+  variables = "et",
+  units = "in",
+  api_key = my_key
+)
+}
 
 }
