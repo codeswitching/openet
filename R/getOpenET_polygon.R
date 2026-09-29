@@ -29,6 +29,7 @@
 #' @param reference_et Reference ET source, either 'cimis' (CA only) or 'gridmet' (all states). Defaults to 'cimis'.
 #' @param interval Time interval: 'daily' or 'monthly'. Defaults to 'daily'.
 #' @param reducer Pixel aggregation method for the polygon: 'mean', 'median', 'min', 'max', or 'sum'. Defaults to 'mean'.
+#' @param overpass Boolean. If TRUE, fetches data only for Landsat overpass dates. Defaults to FALSE.
 #' @param api_key Your personal OpenET API token as a string.
 #'
 #' @returns Returns a data frame with one row per time interval and 3 columns:
@@ -54,7 +55,7 @@
 
 getOpenET_polygon <- function (geometry, start_date = '2021-01-01', end_date = as.character(Sys.Date()),
                                model = 'ensemble', variable = 'et', units = 'in', reference_et = 'cimis',
-                               interval = 'daily', reducer = 'mean', api_key = '')
+                               interval = 'daily', reducer = 'mean', overpass = FALSE, api_key = '')
 
 {
   httr::set_config(httr::config(ssl_verifypeer=0L))         # turn off ssl_verify (for use behind firewall)
@@ -76,7 +77,8 @@ getOpenET_polygon <- function (geometry, start_date = '2021-01-01', end_date = a
                                      file_format   = 'csv',
                                      reducer       = reducer,
                                      reference_et  = reference_et,
-                                     interval      = interval))
+                                     interval      = interval,
+                                     overpass      = overpass))
 
   if (httr::http_error(response)) {                 # If the server returned an error...
     cat('The API server returned the following error:\n')

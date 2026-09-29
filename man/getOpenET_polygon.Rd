@@ -14,6 +14,7 @@ getOpenET_polygon(
   reference_et = "cimis",
   interval = "daily",
   reducer = "mean",
+  overpass = FALSE,
   api_key = ""
 )
 }
@@ -35,6 +36,8 @@ getOpenET_polygon(
 \item{interval}{Time interval: 'daily' or 'monthly'. Defaults to 'daily'.}
 
 \item{reducer}{Pixel aggregation method for the polygon: 'mean', 'median', 'min', 'max', or 'sum'. Defaults to 'mean'.}
+
+\item{overpass}{Boolean. If TRUE, fetches data only for Landsat overpass dates. Defaults to FALSE.}
 
 \item{api_key}{Your personal OpenET API token as a string.}
 }

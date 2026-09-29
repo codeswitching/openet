@@ -59,6 +59,8 @@ getOpenET_quota <- function (api_key = '')
     response <- httr::content(response)
     if (is.null(response$`Cloud Project ID`)) { response$`Cloud Project ID` <- 'None' }  # replace NULL with 'None' so list will convert to df
     quota <- as.data.frame(response, check.names=F)  # read the quota into a data frame; avoid reading col name spaces as periods
+    # Format numeric columns (e.g. Total Area) with thousands separators instead of scientific notation
+    quota[] <- lapply(quota, function(x) if (is.numeric(x)) format(x, big.mark = ',', scientific = FALSE, trim = TRUE) else x)
     print(knitr::kable(quota))                     # pretty print the quotas to the console
     cat('\nAccount quotas reset on the 1st of every month. For a description of plan quotas, see:\nhttps://openet.gitbook.io/docs/additional-resources/quota', '\n')
     }
